@@ -2,74 +2,76 @@ import SwiftUI
 
 struct HistoryView: View {
     @State private var logs: [LogEntry] = []
-    @State private var isLoading = true
     
     var body: some View {
         List {
-            if isLoading {
-                ProgressView()
-            } else if logs.isEmpty {
-                Text("No logs in past 7 days.")
+            if logs.isEmpty {
+                Text("No history yet.")
+                    .font(.caption)
                     .foregroundColor(.gray)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding()
             } else {
                 ForEach(logs) { log in
                     HStack {
-                        Circle()
-                            .fill(color(for: log.type))
-                            .frame(width: 12, height: 12)
+                        icon(for: log.type, metadata: log.extraData)
                         
                         VStack(alignment: .leading) {
-                            Text(title(for: log))
+                            Text(title(for: log.type))
                                 .font(.headline)
-                            Text(formatDate(log.date))
-                                .font(.caption2)
-                                .foregroundColor(.gray)
                         }
                         
                         Spacer()
                         
-                        if let meta = log.metadata {
-                            Text(meta)
-                                .font(.caption)
-                                .foregroundColor(.secondary)
+                        VStack(alignment: .trailing) {
+                            Text(timeString(from: log.date))
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                            if let meta = log.extraData {
+                                Text(meta)
+                                    .font(.caption2)
+                                    .foregroundColor(.secondary)
+                            }
                         }
                     }
-                    .padding(.vertical, 4)
+                    .padding(.vertical, 2)
                 }
             }
         }
         .navigationTitle("History")
         .onAppear {
-            fetchLogs()
+            loadHistory()
         }
     }
     
-    func fetchLogs() {
-        HealthKitManager.shared.fetchHistory { fetchedLogs in
-            self.logs = fetchedLogs
-            self.isLoading = false
-        }
+    func loadHistory() {
+        logs = HistoryManager.shared.getRecentLogs()
     }
     
-    func color(for type: LogEntry.LogType) -> Color {
+    func icon(for type: LogEntry.LogType, metadata: String?) -> some View {
+        // ... (Icon logic - we can reuse or just use system images for now to simplify?)
+        // Let's copy the icon logic but simplified
         switch type {
-        case .pee: return .blue
-        case .poop: return .brown
-        case .miralax: return .green
+        case .pee:
+            return Circle().fill(Color.blue).frame(width: 10, height: 10)
+        case .poop:
+            return Circle().fill(Color.brown).frame(width: 12, height: 12)
+        case .miralax:
+            return Circle().fill(Color.purple).frame(width: 8, height: 8)
         }
     }
     
-    func title(for log: LogEntry) -> String {
-        switch log.type {
+    func title(for type: LogEntry.LogType) -> String {
+        switch type {
         case .pee: return "Pee"
         case .poop: return "Poop"
         case .miralax: return "Miralax"
         }
     }
     
-    func formatDate(_ date: Date) -> String {
+    func timeString(from date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "E M/d h:mm a"
+        formatter.dateFormat = "EEE h:mm a"
         return formatter.string(from: date)
     }
 }

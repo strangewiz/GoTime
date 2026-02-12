@@ -51,7 +51,7 @@ struct BristolScaleView: View {
     }
     
     func logPoop(score: Int) {
-        HealthKitManager.shared.logPoop(bristolScore: score)
+        HistoryManager.shared.addEntry(type: .poop, extraData: "Type \(score)")
         WKInterfaceDevice.current().play(.success)
         presentationMode.wrappedValue.dismiss()
     }

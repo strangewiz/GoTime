@@ -33,63 +33,74 @@ struct ContentView: View {
                     }
                     .padding(.top, 5)
                     
-                    // Pee Button
-                    Button(action: {
-                        showingPeeConfirmation = true
-                    }) {
+                   // MARK: - Actions
+            HStack(spacing: 12) {
+                // Log Pee Button
+                Button(action: {
+                    showingPeeConfirmation = true
+                }) {
+                    VStack {
+                        Image(systemName: "drop.fill")
+                            .font(.title2)
                         Text("Log PEE")
-                            .font(.title3)
+                            .font(.caption2)
                             .fontWeight(.bold)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 50)
-                            .background(Color.blue)
-                            .cornerRadius(12)
-                            .foregroundColor(.white)
                     }
-                    .buttonStyle(.plain)
-                    .alert(isPresented: $showingPeeConfirmation) {
-                        Alert(
-                            title: Text("Log Pee?"),
-                            message: Text("Confirm logging at \(currentTimeString())"),
-                            primaryButton: .default(Text("Confirm")) {
-                                logPee()
-                            },
-                            secondaryButton: .cancel()
-                        )
-                    }
-                    
-                    // Poop Button
-                    Button(action: {
-                        showingBristol = true
-                    }) {
-                        Text("Log POOP")
-                            .font(.title3)
-                            .fontWeight(.bold)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 50)
-                            .background(Color.brown)
-                            .cornerRadius(12)
-                            .foregroundColor(.white)
-                    }
-                    .buttonStyle(.plain)
-                    .sheet(isPresented: $showingBristol) {
-                        BristolScaleView()
-                    }
-                    
-                    Divider()
-                    
-                    // Miralax
-                    Toggle(isOn: $miralaxTaken) {
-                        Text("Morning Meds")
-                            .font(.headline)
-                    }
-                    .onChange(of: miralaxTaken) { newValue in
-                        if newValue {
-                            HealthKitManager.shared.logMiralax()
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.blue.opacity(0.8))
+                    .cornerRadius(12)
+                }
+                .buttonStyle(PlainButtonStyle())
+                .alert(isPresented: $showingPeeConfirmation) {
+                    Alert(
+                        title: Text("Log Pee?"),
+                        message: Text("Confirm logging at \(currentTimeString())"),
+                        primaryButton: .default(Text("Confirm")) {
+                            // Log Pee Action
+                            timerManager.resetTimer()
+                            HistoryManager.shared.addEntry(type: .pee) // New Logic
                             WKInterfaceDevice.current().play(.success)
-                        }
+                        },
+                        secondaryButton: .cancel()
+                    )
+                }
+                
+                // Log Poop Button
+                Button(action: {
+                    showingBristol = true
+                }) {
+                    VStack {
+                        Image(systemName: "circle.grid.hex.fill")
+                            .font(.title2)
+                        Text("Log POOP")
+                            .font(.caption2)
+                            .fontWeight(.bold)
                     }
-                    .padding(.horizontal)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.brown.opacity(0.8))
+                    .cornerRadius(12)
+                }
+                .buttonStyle(PlainButtonStyle())
+                .sheet(isPresented: $showingBristol) {
+                    BristolScaleView()
+                }
+            }
+            .padding(.horizontal)
+            
+            // MARK: - Miralax Toggle
+            Toggle(isOn: $miralaxTaken) {
+                Text("Morning Meds")
+                    .font(.footnote)
+            }
+            .padding()
+            .onChange(of: miralaxTaken) { newValue in
+                if newValue {
+                    HistoryManager.shared.addEntry(type: .miralax, extraData: "Daily Dose") // New logic
+                    WKInterfaceDevice.current().play(.success)
+                }
+            }
                 }
             }
             .onAppear {
@@ -104,12 +115,6 @@ struct ContentView: View {
                 }
             }
         }
-    }
-    
-    func logPee() {
-        HealthKitManager.shared.logPee()
-        timerManager.resetTimer()
-        WKInterfaceDevice.current().play(.success)
     }
     
     func currentTimeString() -> String {
