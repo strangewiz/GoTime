@@ -1,0 +1,695 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		93F95D1F2F3E340C00DAB3D1 /* GoTime Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 93F95D1E2F3E340C00DAB3D1 /* GoTime Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		93F95D202F3E340C00DAB3D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 93F95D122F3E340C00DAB3D1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 93F95D1D2F3E340C00DAB3D1;
+			remoteInfo = "GoTime Watch App";
+		};
+		93F95D2E2F3E340E00DAB3D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 93F95D122F3E340C00DAB3D1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 93F95D1D2F3E340C00DAB3D1;
+			remoteInfo = "GoTime Watch App";
+		};
+		93F95D382F3E340E00DAB3D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 93F95D122F3E340C00DAB3D1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 93F95D1D2F3E340C00DAB3D1;
+			remoteInfo = "GoTime Watch App";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		93F95D442F3E340E00DAB3D1 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				93F95D1F2F3E340C00DAB3D1 /* GoTime Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		93F95D182F3E340C00DAB3D1 /* GoTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		93F95D1E2F3E340C00DAB3D1 /* GoTime Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GoTime Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		93F95D2D2F3E340E00DAB3D1 /* GoTime Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GoTime Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		93F95D372F3E340E00DAB3D1 /* GoTime Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GoTime Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		93F95D222F3E340C00DAB3D1 /* GoTime Watch App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "GoTime Watch App";
+			sourceTree = "<group>";
+		};
+		93F95D302F3E340E00DAB3D1 /* GoTime Watch AppTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "GoTime Watch AppTests";
+			sourceTree = "<group>";
+		};
+		93F95D3A2F3E340E00DAB3D1 /* GoTime Watch AppUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "GoTime Watch AppUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		93F95D1B2F3E340C00DAB3D1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		93F95D2A2F3E340E00DAB3D1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		93F95D342F3E340E00DAB3D1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		93F95D112F3E340C00DAB3D1 = {
+			isa = PBXGroup;
+			children = (
+				93F95D222F3E340C00DAB3D1 /* GoTime Watch App */,
+				93F95D302F3E340E00DAB3D1 /* GoTime Watch AppTests */,
+				93F95D3A2F3E340E00DAB3D1 /* GoTime Watch AppUITests */,
+				93F95D192F3E340C00DAB3D1 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		93F95D192F3E340C00DAB3D1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				93F95D182F3E340C00DAB3D1 /* GoTime.app */,
+				93F95D1E2F3E340C00DAB3D1 /* GoTime Watch App.app */,
+				93F95D2D2F3E340E00DAB3D1 /* GoTime Watch AppTests.xctest */,
+				93F95D372F3E340E00DAB3D1 /* GoTime Watch AppUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		93F95D172F3E340C00DAB3D1 /* GoTime */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 93F95D452F3E340E00DAB3D1 /* Build configuration list for PBXNativeTarget "GoTime" */;
+			buildPhases = (
+				93F95D162F3E340C00DAB3D1 /* Resources */,
+				93F95D442F3E340E00DAB3D1 /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				93F95D212F3E340C00DAB3D1 /* PBXTargetDependency */,
+			);
+			name = GoTime;
+			packageProductDependencies = (
+			);
+			productName = GoTime;
+			productReference = 93F95D182F3E340C00DAB3D1 /* GoTime.app */;
+			productType = "com.apple.product-type.application.watchapp2-container";
+		};
+		93F95D1D2F3E340C00DAB3D1 /* GoTime Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 93F95D412F3E340E00DAB3D1 /* Build configuration list for PBXNativeTarget "GoTime Watch App" */;
+			buildPhases = (
+				93F95D1A2F3E340C00DAB3D1 /* Sources */,
+				93F95D1B2F3E340C00DAB3D1 /* Frameworks */,
+				93F95D1C2F3E340C00DAB3D1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				93F95D222F3E340C00DAB3D1 /* GoTime Watch App */,
+			);
+			name = "GoTime Watch App";
+			packageProductDependencies = (
+			);
+			productName = "GoTime Watch App";
+			productReference = 93F95D1E2F3E340C00DAB3D1 /* GoTime Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+		93F95D2C2F3E340E00DAB3D1 /* GoTime Watch AppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 93F95D482F3E340E00DAB3D1 /* Build configuration list for PBXNativeTarget "GoTime Watch AppTests" */;
+			buildPhases = (
+				93F95D292F3E340E00DAB3D1 /* Sources */,
+				93F95D2A2F3E340E00DAB3D1 /* Frameworks */,
+				93F95D2B2F3E340E00DAB3D1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				93F95D2F2F3E340E00DAB3D1 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				93F95D302F3E340E00DAB3D1 /* GoTime Watch AppTests */,
+			);
+			name = "GoTime Watch AppTests";
+			packageProductDependencies = (
+			);
+			productName = "GoTime Watch AppTests";
+			productReference = 93F95D2D2F3E340E00DAB3D1 /* GoTime Watch AppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		93F95D362F3E340E00DAB3D1 /* GoTime Watch AppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 93F95D4B2F3E340E00DAB3D1 /* Build configuration list for PBXNativeTarget "GoTime Watch AppUITests" */;
+			buildPhases = (
+				93F95D332F3E340E00DAB3D1 /* Sources */,
+				93F95D342F3E340E00DAB3D1 /* Frameworks */,
+				93F95D352F3E340E00DAB3D1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				93F95D392F3E340E00DAB3D1 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				93F95D3A2F3E340E00DAB3D1 /* GoTime Watch AppUITests */,
+			);
+			name = "GoTime Watch AppUITests";
+			packageProductDependencies = (
+			);
+			productName = "GoTime Watch AppUITests";
+			productReference = 93F95D372F3E340E00DAB3D1 /* GoTime Watch AppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		93F95D122F3E340C00DAB3D1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2610;
+				LastUpgradeCheck = 2610;
+				TargetAttributes = {
+					93F95D172F3E340C00DAB3D1 = {
+						CreatedOnToolsVersion = 26.1.1;
+					};
+					93F95D1D2F3E340C00DAB3D1 = {
+						CreatedOnToolsVersion = 26.1.1;
+					};
+					93F95D2C2F3E340E00DAB3D1 = {
+						CreatedOnToolsVersion = 26.1.1;
+						TestTargetID = 93F95D1D2F3E340C00DAB3D1;
+					};
+					93F95D362F3E340E00DAB3D1 = {
+						CreatedOnToolsVersion = 26.1.1;
+						TestTargetID = 93F95D1D2F3E340C00DAB3D1;
+					};
+				};
+			};
+			buildConfigurationList = 93F95D152F3E340C00DAB3D1 /* Build configuration list for PBXProject "GoTime" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 93F95D112F3E340C00DAB3D1;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 93F95D192F3E340C00DAB3D1 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				93F95D172F3E340C00DAB3D1 /* GoTime */,
+				93F95D1D2F3E340C00DAB3D1 /* GoTime Watch App */,
+				93F95D2C2F3E340E00DAB3D1 /* GoTime Watch AppTests */,
+				93F95D362F3E340E00DAB3D1 /* GoTime Watch AppUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		93F95D162F3E340C00DAB3D1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		93F95D1C2F3E340C00DAB3D1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		93F95D2B2F3E340E00DAB3D1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		93F95D352F3E340E00DAB3D1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		93F95D1A2F3E340C00DAB3D1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		93F95D292F3E340E00DAB3D1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		93F95D332F3E340E00DAB3D1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		93F95D212F3E340C00DAB3D1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 93F95D1D2F3E340C00DAB3D1 /* GoTime Watch App */;
+			targetProxy = 93F95D202F3E340C00DAB3D1 /* PBXContainerItemProxy */;
+		};
+		93F95D2F2F3E340E00DAB3D1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 93F95D1D2F3E340C00DAB3D1 /* GoTime Watch App */;
+			targetProxy = 93F95D2E2F3E340E00DAB3D1 /* PBXContainerItemProxy */;
+		};
+		93F95D392F3E340E00DAB3D1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 93F95D1D2F3E340C00DAB3D1 /* GoTime Watch App */;
+			targetProxy = 93F95D382F3E340E00DAB3D1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		93F95D3F2F3E340E00DAB3D1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 49WDPW523Y;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		93F95D402F3E340E00DAB3D1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 49WDPW523Y;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		93F95D422F3E340E00DAB3D1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 49WDPW523Y;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = GoTime;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKWatchOnly = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.justinsc.GoTime.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.1;
+			};
+			name = Debug;
+		};
+		93F95D432F3E340E00DAB3D1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 49WDPW523Y;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = GoTime;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKWatchOnly = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.justinsc.GoTime.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 26.1;
+			};
+			name = Release;
+		};
+		93F95D462F3E340E00DAB3D1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 49WDPW523Y;
+				INFOPLIST_KEY_CFBundleDisplayName = GoTime;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.justinsc.GoTime;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		93F95D472F3E340E00DAB3D1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 49WDPW523Y;
+				INFOPLIST_KEY_CFBundleDisplayName = GoTime;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.justinsc.GoTime;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		93F95D492F3E340E00DAB3D1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 49WDPW523Y;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.justinsc.GoTime-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GoTime Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/GoTime Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 26.1;
+			};
+			name = Debug;
+		};
+		93F95D4A2F3E340E00DAB3D1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 49WDPW523Y;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.justinsc.GoTime-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GoTime Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/GoTime Watch App";
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 26.1;
+			};
+			name = Release;
+		};
+		93F95D4C2F3E340E00DAB3D1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 49WDPW523Y;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.justinsc.GoTime-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "GoTime Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 26.1;
+			};
+			name = Debug;
+		};
+		93F95D4D2F3E340E00DAB3D1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 49WDPW523Y;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.justinsc.GoTime-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "GoTime Watch App";
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 26.1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		93F95D152F3E340C00DAB3D1 /* Build configuration list for PBXProject "GoTime" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				93F95D3F2F3E340E00DAB3D1 /* Debug */,
+				93F95D402F3E340E00DAB3D1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		93F95D412F3E340E00DAB3D1 /* Build configuration list for PBXNativeTarget "GoTime Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				93F95D422F3E340E00DAB3D1 /* Debug */,
+				93F95D432F3E340E00DAB3D1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		93F95D452F3E340E00DAB3D1 /* Build configuration list for PBXNativeTarget "GoTime" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				93F95D462F3E340E00DAB3D1 /* Debug */,
+				93F95D472F3E340E00DAB3D1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		93F95D482F3E340E00DAB3D1 /* Build configuration list for PBXNativeTarget "GoTime Watch AppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				93F95D492F3E340E00DAB3D1 /* Debug */,
+				93F95D4A2F3E340E00DAB3D1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		93F95D4B2F3E340E00DAB3D1 /* Build configuration list for PBXNativeTarget "GoTime Watch AppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				93F95D4C2F3E340E00DAB3D1 /* Debug */,
+				93F95D4D2F3E340E00DAB3D1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 93F95D122F3E340C00DAB3D1 /* Project object */;
+}
