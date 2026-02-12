@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		93F95D1F2F3E340C00DAB3D1 /* GoTime Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 93F95D1E2F3E340C00DAB3D1 /* GoTime Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		93F95D5A2F3E34DE00DAB3D1 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93F95D592F3E34DE00DAB3D1 /* WidgetKit.framework */; };
+		93F95D5C2F3E34DE00DAB3D1 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93F95D5B2F3E34DE00DAB3D1 /* SwiftUI.framework */; };
+		93F95D6B2F3E34DF00DAB3D1 /* GoTimerWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 93F95D572F3E34DE00DAB3D1 /* GoTimerWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +35,13 @@
 			remoteGlobalIDString = 93F95D1D2F3E340C00DAB3D1;
 			remoteInfo = "GoTime Watch App";
 		};
+		93F95D692F3E34DF00DAB3D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 93F95D122F3E340C00DAB3D1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 93F95D562F3E34DE00DAB3D1;
+			remoteInfo = GoTimerWidgetExtension;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -46,6 +56,17 @@
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		93F95D702F3E34DF00DAB3D1 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				93F95D6B2F3E34DF00DAB3D1 /* GoTimerWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -53,7 +74,21 @@
 		93F95D1E2F3E340C00DAB3D1 /* GoTime Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GoTime Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		93F95D2D2F3E340E00DAB3D1 /* GoTime Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GoTime Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		93F95D372F3E340E00DAB3D1 /* GoTime Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GoTime Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		93F95D572F3E34DE00DAB3D1 /* GoTimerWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = GoTimerWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		93F95D592F3E34DE00DAB3D1 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		93F95D5B2F3E34DE00DAB3D1 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		93F95D862F3E3DB000DAB3D1 /* GoTimerWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GoTimerWidgetExtension.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		93F95D6C2F3E34DF00DAB3D1 /* Exceptions for "GoTimerWidget" folder in "GoTimerWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 93F95D562F3E34DE00DAB3D1 /* GoTimerWidgetExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		93F95D222F3E340C00DAB3D1 /* GoTime Watch App */ = {
@@ -69,6 +104,14 @@
 		93F95D3A2F3E340E00DAB3D1 /* GoTime Watch AppUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "GoTime Watch AppUITests";
+			sourceTree = "<group>";
+		};
+		93F95D5D2F3E34DE00DAB3D1 /* GoTimerWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				93F95D6C2F3E34DF00DAB3D1 /* Exceptions for "GoTimerWidget" folder in "GoTimerWidgetExtension" target */,
+			);
+			path = GoTimerWidget;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -95,15 +138,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		93F95D542F3E34DE00DAB3D1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				93F95D5C2F3E34DE00DAB3D1 /* SwiftUI.framework in Frameworks */,
+				93F95D5A2F3E34DE00DAB3D1 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		93F95D112F3E340C00DAB3D1 = {
 			isa = PBXGroup;
 			children = (
+				93F95D862F3E3DB000DAB3D1 /* GoTimerWidgetExtension.entitlements */,
 				93F95D222F3E340C00DAB3D1 /* GoTime Watch App */,
 				93F95D302F3E340E00DAB3D1 /* GoTime Watch AppTests */,
 				93F95D3A2F3E340E00DAB3D1 /* GoTime Watch AppUITests */,
+				93F95D5D2F3E34DE00DAB3D1 /* GoTimerWidget */,
+				93F95D582F3E34DE00DAB3D1 /* Frameworks */,
 				93F95D192F3E340C00DAB3D1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -115,8 +170,18 @@
 				93F95D1E2F3E340C00DAB3D1 /* GoTime Watch App.app */,
 				93F95D2D2F3E340E00DAB3D1 /* GoTime Watch AppTests.xctest */,
 				93F95D372F3E340E00DAB3D1 /* GoTime Watch AppUITests.xctest */,
+				93F95D572F3E34DE00DAB3D1 /* GoTimerWidgetExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		93F95D582F3E34DE00DAB3D1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				93F95D592F3E34DE00DAB3D1 /* WidgetKit.framework */,
+				93F95D5B2F3E34DE00DAB3D1 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -148,10 +213,12 @@
 				93F95D1A2F3E340C00DAB3D1 /* Sources */,
 				93F95D1B2F3E340C00DAB3D1 /* Frameworks */,
 				93F95D1C2F3E340C00DAB3D1 /* Resources */,
+				93F95D702F3E34DF00DAB3D1 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				93F95D6A2F3E34DF00DAB3D1 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				93F95D222F3E340C00DAB3D1 /* GoTime Watch App */,
@@ -209,6 +276,28 @@
 			productReference = 93F95D372F3E340E00DAB3D1 /* GoTime Watch AppUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		93F95D562F3E34DE00DAB3D1 /* GoTimerWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 93F95D6D2F3E34DF00DAB3D1 /* Build configuration list for PBXNativeTarget "GoTimerWidgetExtension" */;
+			buildPhases = (
+				93F95D532F3E34DE00DAB3D1 /* Sources */,
+				93F95D542F3E34DE00DAB3D1 /* Frameworks */,
+				93F95D552F3E34DE00DAB3D1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				93F95D5D2F3E34DE00DAB3D1 /* GoTimerWidget */,
+			);
+			name = GoTimerWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = GoTimerWidgetExtension;
+			productReference = 93F95D572F3E34DE00DAB3D1 /* GoTimerWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -224,6 +313,7 @@
 					};
 					93F95D1D2F3E340C00DAB3D1 = {
 						CreatedOnToolsVersion = 26.1.1;
+						LastSwiftMigration = 2610;
 					};
 					93F95D2C2F3E340E00DAB3D1 = {
 						CreatedOnToolsVersion = 26.1.1;
@@ -232,6 +322,9 @@
 					93F95D362F3E340E00DAB3D1 = {
 						CreatedOnToolsVersion = 26.1.1;
 						TestTargetID = 93F95D1D2F3E340C00DAB3D1;
+					};
+					93F95D562F3E34DE00DAB3D1 = {
+						CreatedOnToolsVersion = 26.1.1;
 					};
 				};
 			};
@@ -253,6 +346,7 @@
 				93F95D1D2F3E340C00DAB3D1 /* GoTime Watch App */,
 				93F95D2C2F3E340E00DAB3D1 /* GoTime Watch AppTests */,
 				93F95D362F3E340E00DAB3D1 /* GoTime Watch AppUITests */,
+				93F95D562F3E34DE00DAB3D1 /* GoTimerWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -286,6 +380,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		93F95D552F3E34DE00DAB3D1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -310,6 +411,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		93F95D532F3E34DE00DAB3D1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -327,6 +435,11 @@
 			isa = PBXTargetDependency;
 			target = 93F95D1D2F3E340C00DAB3D1 /* GoTime Watch App */;
 			targetProxy = 93F95D382F3E340E00DAB3D1 /* PBXContainerItemProxy */;
+		};
+		93F95D6A2F3E34DF00DAB3D1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 93F95D562F3E34DE00DAB3D1 /* GoTimerWidgetExtension */;
+			targetProxy = 93F95D692F3E34DF00DAB3D1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -452,12 +565,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "GoTime Watch App/GoTime Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 49WDPW523Y;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = GoTime;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "To track voiding logs.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "To track voiding logs.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -473,6 +590,8 @@
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "GoTime Watch App/GoTime Watch App-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -485,12 +604,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "GoTime Watch App/GoTime Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 49WDPW523Y;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = GoTime;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "To track voiding logs.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "To track voiding logs.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -506,6 +629,7 @@
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "GoTime Watch App/GoTime Watch App-Bridging-Header.h";
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -568,7 +692,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GoTime Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/GoTime Watch App";
-				WATCHOS_DEPLOYMENT_TARGET = 26.1;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Debug;
 		};
@@ -592,7 +716,7 @@
 				TARGETED_DEVICE_FAMILY = 4;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GoTime Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/GoTime Watch App";
 				VALIDATE_PRODUCT = YES;
-				WATCHOS_DEPLOYMENT_TARGET = 26.1;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Release;
 		};
@@ -636,6 +760,75 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				TEST_TARGET_NAME = "GoTime Watch App";
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 26.1;
+			};
+			name = Release;
+		};
+		93F95D6E2F3E34DF00DAB3D1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = GoTimerWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 49WDPW523Y;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GoTimerWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = GoTimerWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.justinsc.GoTime.watchkitapp.GoTimerWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.1;
+			};
+			name = Debug;
+		};
+		93F95D6F2F3E34DF00DAB3D1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = GoTimerWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 49WDPW523Y;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GoTimerWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = GoTimerWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.justinsc.GoTime.watchkitapp.GoTimerWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
 				VALIDATE_PRODUCT = YES;
 				WATCHOS_DEPLOYMENT_TARGET = 26.1;
 			};
@@ -685,6 +878,15 @@
 			buildConfigurations = (
 				93F95D4C2F3E340E00DAB3D1 /* Debug */,
 				93F95D4D2F3E340E00DAB3D1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		93F95D6D2F3E34DF00DAB3D1 /* Build configuration list for PBXNativeTarget "GoTimerWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				93F95D6E2F3E34DF00DAB3D1 /* Debug */,
+				93F95D6F2F3E34DF00DAB3D1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
