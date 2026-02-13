@@ -9,10 +9,10 @@ GoTime is a specialized watchOS application designed to help track intermittent 
 - **Snooze**: 10-minute snooze option for when immediate access isn't possible.
 - **Smart Logic**: Automatically adjusts targets based on the last logged event.
 
-### 📝 Comprehensive Logging (Dual Storage)
+### 📝 Comprehensive Logging (Triple Storage)
 - **Local History**: Logs are stored securely on the Watch for immediate viewing by the child/wearer.
-- **Parent Monitoring**: Logs are *also* synced to Apple Health (on the paired iPhone) as **"Abdominal Cramps"** events. This allows parents to track frequency and timing remotely via their own Health App.
-- **Detailed Metadata**: Each HealthKit entry includes tags for "Pee", "Poop", or "Meds".
+- **CloudKit Sync**: Logs are pushed to a private database and can be viewed via the Web Dashboard or shared with parents.
+- **Parent Monitoring (HealthKit)**: (Optional) Logs can sync to Apple Health on the paired iPhone. This is currently disabled by default.
 
 ### ⌚ Complication (Widget)
 - **At-a-Glance Status**: See exactly how much time is left until the next check-in directly on the watch face.
@@ -36,11 +36,12 @@ To ensure the Complication syncs correctly and History is shared, you must confi
 2.  Add/Select `group.com.justinsc.GoTime`.
 3.  Repeat for the **GoTimerWidgetExtension** Target.
 
-### HealthKit Permissions
-The app writes data to the **"Abdominal Cramps"** category in HealthKit. Ensure Write access is granted upon first launch to enable Parent Monitoring.
+### HealthKit Permissions (Optional)
+This app includes code to sync logs to Apple Health as "Abdominal Cramps" (proxy for generic events). This feature is currently **disabled** by default in the code but can be re-enabled by uncommenting the relevant lines in `HistoryManager.swift` and `GoTime Watch App.entitlements`.
 
 ### CloudKit Permissions & Dashboard
 Enable the **iCloud (CloudKit)** capability in Xcode for the Watch App target.
+
 
 **Web Dashboard Setup:**
 1.  Navigate to the `dashboard/` folder.
