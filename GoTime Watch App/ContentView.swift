@@ -113,6 +113,13 @@ struct ContentView: View {
                             .foregroundColor(.white)
                     }
                 }
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink(destination: ShareView()) {
+                        Image(systemName: "square.and.arrow.up")
+                            .foregroundColor(.blue)
+                    }
+                }
             }
         }
     }

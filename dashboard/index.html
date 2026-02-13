@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoTime Parent Dashboard</title>
+    <script src="https://cdn.apple-cloudkit.com/ck/2/cloudkit.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: #fefefe;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #007aff;
+        }
+
+        .auth-container {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .log-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .log-item {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .log-type {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .log-time {
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        .pee {
+            color: #007aff;
+        }
+
+        .poop {
+            color: #a0522d;
+        }
+
+        .miralax {
+            color: #af52de;
+        }
+
+        .meta {
+            font-size: 0.8em;
+            color: #555;
+            margin-left: 10px;
+        }
+
+        #logs-container {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>GoTime Dashboard</h1>
+
+        <div id="auth-root" class="auth-container"></div>
+
+        <div id="logs-container">
+            <h2 id="child-name">Loading Logs...</h2>
+            <ul class="log-list" id="log-list"></ul>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script>
+        // Check for Config
+        if (typeof CONFIG === 'undefined') {
+            alert("Error: config.js not found. Please rename config.example.js to config.js and add your API Token.");
+        }
+
+        CloudKit.configure({
+            containers: [{
+                containerIdentifier: CONFIG.CONTAINER_IDENTIFIER,
+                apiTokenAuth: {
+                    apiToken: CONFIG.API_TOKEN,
+                    persist: true
+                },
+                environment: 'development' // Change to 'production' when deploying
+            }]
+        });
+
+        function gotoAuthenticatedState(userInfo) {
+            document.getElementById('auth-root').style.display = 'none';
+            document.getElementById('logs-container').style.display = 'block';
+            fetchLogs();
+        }
+
+        function gotoUnauthenticatedState(error) {
+            document.getElementById('auth-root').style.display = 'block';
+            document.getElementById('logs-container').style.display = 'none';
+
+            if (error) console.error(error);
+
+            // Render Sign In Button
+            window.CloudKit.getDefaultContainer().setUpAuth().then((userInfo) => {
+                if (userInfo) {
+                    gotoAuthenticatedState(userInfo);
+                } else {
+                    console.log("User needs to sign in");
+                }
+            });
+        }
+
+        // Initialize
+        gotoUnauthenticatedState();
+
+        async function fetchLogs() {
+            const container = CloudKit.getDefaultContainer();
+            const sharedDB = container.sharedCloudDatabase;
+
+            // 1. Fetch all zones in Shared DB (We need to find the shared zone from the child)
+            try {
+                // In shared DB, query for PottyEvent in all zones
+                // Note: For shared DB, we typically need to query specific zones or just the default.
+                // But getting ALL shared records is tricky without knowing zones.
+                // Strategy: List Zones first.
+
+                const zones = await sharedDB.fetchAllRecordZones();
+                console.log("Zones:", zones);
+
+                const allLogs = [];
+
+                for (const zone of zones) {
+                    // Skip default zone? Shared zones usually have specific names
+                    console.log("Querying zone:", zone.zoneID.zoneName);
+
+                    const query = {
+                        recordType: 'PottyEvent',
+                        sortBy: [{ fieldName: 'date', ascending: false }]
+                    };
+
+                    const result = await sharedDB.performQuery(query, { zoneID: zone.zoneID });
+                    if (result.records) {
+                        allLogs.push(...result.records);
+                    }
+                }
+
+                renderLogs(allLogs);
+
+            } catch (error) {
+                console.error("Error fetching logs:", error);
+                document.getElementById('child-name').innerText = "Error loading logs: " + error.message;
+            }
+        }
+
+        function renderLogs(logs) {
+            const list = document.getElementById('log-list');
+            list.innerHTML = '';
+
+            if (logs.length === 0) {
+                document.getElementById('child-name').innerText = "No shared logs found.";
+                return;
+            }
+
+            document.getElementById('child-name').innerText = `History (${logs.length} events)`;
+
+            // Sort by date desc (if mixed zones)
+            logs.sort((a, b) => b.fields.date.value - a.fields.date.value);
+
+            logs.forEach(record => {
+                const type = record.fields.type.value;
+                const date = new Date(record.fields.date.value);
+                const extra = record.fields.extraData ? record.fields.extraData.value : '';
+
+                const li = document.createElement('li');
+                li.className = 'log-item';
+
+                let typeClass = type.toLowerCase();
+                if (typeClass === 'pee') typeClass = 'pee';
+                else if (typeClass === 'poop') typeClass = 'poop';
+                else typeClass = 'miralax';
+
+                li.innerHTML = `
+                <div>
+                    <span class="log-type ${typeClass}">${type.toUpperCase()}</span>
+                    ${extra ? `<span class="meta">${extra}</span>` : ''}
+                </div>
+                <span class="log-time">${date.toLocaleString()}</span>
+            `;
+                list.appendChild(li);
+            });
+        }
+    </script>
+</body>
+
+</html>
