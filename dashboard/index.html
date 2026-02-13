@@ -85,7 +85,12 @@
     <div class="container">
         <h1>GoTime Dashboard</h1>
 
-        <div id="auth-root" class="auth-container"></div>
+        <div id="auth-root" class="auth-container">
+            <button id="apple-sign-in-button"
+                style="display:none; background: #000; color: #fff; border: none; padding: 12px 24px; border-radius: 20px; font-size: 16px; cursor: pointer;">
+                 Sign In with Apple
+            </button>
+        </div>
 
         <div id="logs-container">
             <h2 id="child-name">Loading Logs...</h2>
@@ -123,18 +128,35 @@
 
             if (error) console.error(error);
 
-            // Render Sign In Button
-            window.CloudKit.getDefaultContainer().setUpAuth().then((userInfo) => {
-                if (userInfo) {
-                    gotoAuthenticatedState(userInfo);
-                } else {
-                    console.log("User needs to sign in");
-                }
-            });
+            // Show Button
+            const btn = document.getElementById('apple-sign-in-button');
+            btn.style.display = 'inline-block';
+
+            btn.onclick = function () {
+                window.CloudKit.getDefaultContainer().authenticate()
+                    .then(userInfo => {
+                        if (userInfo) gotoAuthenticatedState(userInfo);
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        alert("Sign In Error: " + err);
+                    });
+            };
         }
 
         // Initialize
-        gotoUnauthenticatedState();
+        window.CloudKit.getDefaultContainer().setUpAuth()
+            .then(userInfo => {
+                if (userInfo) {
+                    gotoAuthenticatedState(userInfo);
+                } else {
+                    gotoUnauthenticatedState();
+                }
+            })
+            .catch(error => {
+                console.error("Auth Init Error:", error);
+                gotoUnauthenticatedState(error);
+            });
 
         async function fetchLogs() {
             const container = CloudKit.getDefaultContainer();

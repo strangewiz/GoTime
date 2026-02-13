@@ -26,8 +26,8 @@ class HistoryManager {
         logs.append(newEntry)
         saveLogs(logs)
         
-        // Sync to HealthKit (Proxy)
-        HealthKitManager.shared.saveLog(type: type, extraData: extraData)
+        // Sync to HealthKit (Proxy) - DISABLED
+        // HealthKitManager.shared.saveLog(type: type, extraData: extraData)
         
         // Sync to CloudKit
         CloudKitManager.shared.save(log: newEntry)

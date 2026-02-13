@@ -104,7 +104,7 @@ struct ContentView: View {
                 }
             }
             .onAppear {
-                HealthKitManager.shared.requestAuthorization()
+                // HealthKitManager.shared.requestAuthorization()
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
