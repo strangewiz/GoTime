@@ -39,6 +39,15 @@ To ensure the Complication syncs correctly and History is shared, you must confi
 ### HealthKit Permissions
 The app writes data to the **"Abdominal Cramps"** category in HealthKit. Ensure Write access is granted upon first launch to enable Parent Monitoring.
 
+### CloudKit Permissions & Dashboard
+Enable the **iCloud (CloudKit)** capability in Xcode for the Watch App target.
+
+**Web Dashboard Setup:**
+1.  Navigate to the `dashboard/` folder.
+2.  Rename `config.example.js` to `config.js`.
+3.  Open `config.js` and insert your **CloudKit API Token** and **Container ID**.
+4.  Open `index.html` in any browser to view shared logs remotely.
+
 ## Installation
 
 1.  Clone the repository.
