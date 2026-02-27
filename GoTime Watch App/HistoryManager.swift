@@ -56,4 +56,10 @@ class HistoryManager {
         let sevenDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date())!
         return logs.filter { $0.date >= sevenDaysAgo }
     }
+    
+    // Clear Data
+    func clearAllData() {
+        defaults.removeObject(forKey: storageKey)
+        CloudKitManager.shared.deleteAllCloudKitData()
+    }
 }

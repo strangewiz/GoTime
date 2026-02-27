@@ -17,13 +17,21 @@ struct ShareView: View {
                 // share.url is the inviting URL.
                 
                 if let url = share.url {
-                    ShareLink(item: url, subject: Text("Join GoTime History"), message: Text("Click to view my potty logs!")) {
-                        Label("Invite Parent", systemImage: "person.badge.plus")
-                            .font(.headline)
-                            .padding()
-                            .background(Color.blue)
-                            .cornerRadius(10)
+                    VStack(spacing: 12) {
+                        Text("Ready to connect!")
+                            .font(.footnote)
+                            .foregroundColor(.secondary)
+                        
+                        ShareLink(item: url.absoluteString, subject: Text("GoTime Link"), message: Text("Paste this link into the GoTime Parent Dashboard: \(url.absoluteString)")) {
+                            Label("Send Link", systemImage: "paperplane.fill")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .padding()
+                                .background(Color.blue)
+                                .cornerRadius(10)
+                        }
                     }
+                    .padding()
                 } else {
                     Text("Preparing Share URL...")
                         .font(.caption)

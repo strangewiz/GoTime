@@ -53,6 +53,10 @@ struct Provider: TimelineProvider {
     
     // Helper to format text
     func calculateState(target: Date, at date: Date) -> (text: String, isOverdue: Bool) {
+        if isSleeping(at: date) {
+            return ("Zzz...", false)
+        }
+        
         let remaining = target.timeIntervalSince(date)
         
         if remaining <= 0 {
@@ -66,6 +70,24 @@ struct Provider: TimelineProvider {
             return ("\(hours)h \(minutes)m", false)
         } else {
             return ("\(minutes)m", false)
+        }
+    }
+    
+    func isSleeping(at date: Date) -> Bool {
+        let defaults = UserDefaults(suiteName: "group.com.justinsc.GoTime")
+        let isEnabled = defaults?.object(forKey: "isSleepEnabled") == nil ? true : defaults?.bool(forKey: "isSleepEnabled") ?? true
+        if !isEnabled { return false }
+        
+        let startHour = defaults?.object(forKey: "sleepStartHour") == nil ? 20 : defaults?.integer(forKey: "sleepStartHour") ?? 20
+        let endHour = defaults?.object(forKey: "sleepEndHour") == nil ? 8 : defaults?.integer(forKey: "sleepEndHour") ?? 8
+        
+        if startHour == endHour { return false }
+        
+        let hour = Calendar.current.component(.hour, from: date)
+        if startHour < endHour {
+            return (hour >= startHour && hour < endHour)
+        } else {
+            return (hour >= startHour || hour < endHour)
         }
     }
     

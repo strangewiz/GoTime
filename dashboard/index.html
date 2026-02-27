@@ -93,6 +93,18 @@
         </div>
 
         <div id="logs-container">
+            <div
+                style="background: #f0f8ff; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center; border: 1px solid #cce5ff;">
+                <h3>Step 2: Connect to Child</h3>
+                <p style="font-size: 0.9em; color: #555;">Paste the iCloud Share link generated from the Watch here to
+                    view their logs.</p>
+                <input type="text" id="share-url-input" placeholder="https://www.icloud.com/share/..."
+                    style="width: 70%; padding: 8px; border-radius: 6px; border: 1px solid #ccc;">
+                <button onclick="acceptShare()"
+                    style="background: #007aff; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer;">Accept
+                    Link</button>
+            </div>
+
             <h2 id="child-name">Loading Logs...</h2>
             <ul class="log-list" id="log-list"></ul>
         </div>
@@ -158,6 +170,46 @@
                 gotoUnauthenticatedState(error);
             });
 
+        async function acceptShare() {
+            const input = document.getElementById('share-url-input');
+            const url = input.value.trim();
+            if (!url) {
+                alert("Please paste a valid iCloud Share URL first.");
+                return;
+            }
+
+            // Extract the shortGUID from the iCloud share URL
+            const match = url.match(/share\/([a-zA-Z0-9_-]+)/);
+            if (!match || !match[1]) {
+                alert("Invalid iCloud Share URL format. Ensure it looks like https://www.icloud.com/share/...");
+                return;
+            }
+            const shortGUID = match[1];
+
+            try {
+                input.disabled = true;
+                const container = CloudKit.getDefaultContainer();
+                console.log("Accepting share shortGUID:", shortGUID);
+                const shareRes = await container.acceptShares([shortGUID]);
+                console.log("Share Accepted Result:", shareRes);
+                alert("Successfully linked! Loading logs...");
+                input.value = "";
+                fetchLogs();
+            } catch (error) {
+                console.error("Error accepting share:", error);
+
+                if (error.message && error.message.includes("already accepted")) {
+                    alert("You have already connected to this watch. Loading logs...");
+                    input.value = "";
+                    fetchLogs();
+                } else {
+                    alert("Failed to accept link: " + error.message);
+                }
+            } finally {
+                input.disabled = false;
+            }
+        }
+
         async function fetchLogs() {
             const container = CloudKit.getDefaultContainer();
             const sharedDB = container.sharedCloudDatabase;
@@ -169,10 +221,11 @@
                 // But getting ALL shared records is tricky without knowing zones.
                 // Strategy: List Zones first.
 
-                const zones = await sharedDB.fetchAllRecordZones();
-                console.log("Zones:", zones);
+                const zonesResponse = await sharedDB.fetchAllRecordZones();
+                console.log("Zones Response:", zonesResponse);
 
                 const allLogs = [];
+                const zones = zonesResponse.zones || [];
 
                 for (const zone of zones) {
                     // Skip default zone? Shared zones usually have specific names

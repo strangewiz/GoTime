@@ -4,19 +4,23 @@ GoTime is a specialized watchOS application designed to help track intermittent 
 
 ## Features
 
-### 🕒 Recurring Timer
-- **2.5-Hour Countdown**: Automatically resets after logging a "Pee" event.
+### 🕒 Customizable Recurring Timer
+- **Adjustable Target**: Customize the countdown duration (default 2.5 hours). Automatically resets after logging a "Pee" event.
 - **Snooze**: 10-minute snooze option for when immediate access isn't possible.
-- **Smart Logic**: Automatically adjusts targets based on the last logged event.
+- **Sleep Mode**: Configure quiet hours (e.g., 8 PM to 8 AM) to pause the timer and disable notifications automatically overnight.
+
+### 📳 Silent Notifications
+- **Haptic Alerts**: Native watchOS notifications use haptics (vibration) in silent mode when the timer hits zero, ideal for school environments without audible disruptions.
 
 ### 📝 Comprehensive Logging (Triple Storage)
 - **Local History**: Logs are stored securely on the Watch for immediate viewing by the child/wearer.
 - **CloudKit Sync**: Logs are pushed to a private database and can be viewed via the Web Dashboard or shared with parents.
+- **Privacy & Clearing**: In the Settings tab, you can clear all recorded local logs and remotely wipe CloudKit data simultaneously for perfect privacy.
 - **Parent Monitoring (HealthKit)**: (Optional) Logs can sync to Apple Health on the paired iPhone. This is currently disabled by default.
 
 ### ⌚ Complication (Widget)
 - **At-a-Glance Status**: See exactly how much time is left until the next check-in directly on the watch face.
-- **Custom Formatting**: Displays clear "2h 30m" or "15m" text updates (no seconds) for readability.
+- **Smart Sleep Display**: The complication automatically switches to "Zzz..." during your configured sleep hours.
 - **Instant Sync**: Uses App Groups to synchronize timer state between the App and Widget instantly.
 
 ### 📊 History
