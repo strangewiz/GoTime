@@ -15,6 +15,7 @@ GoTime is a specialized watchOS application designed to help track intermittent 
 ### 📝 Comprehensive Logging (Triple Storage)
 - **Local History**: Logs are stored securely on the Watch for immediate viewing by the child/wearer.
 - **CloudKit Sync**: Logs are pushed to a private database and can be viewed via the Web Dashboard or shared with parents.
+- **Offline Sync Queue**: Logs made while disconnected from the internet are securely queued and automatically uploaded to iCloud in the background once a connection is restored.
 - **Privacy & Clearing**: In the Settings tab, you can clear all recorded local logs and remotely wipe CloudKit data simultaneously for perfect privacy.
 - **Parent Monitoring (HealthKit)**: (Optional) Logs can sync to Apple Health on the paired iPhone. This is currently disabled by default.
 

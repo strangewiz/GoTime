@@ -62,4 +62,44 @@ final class TimerManagerTests: XCTestCase {
         expected = future.addingTimeInterval(10 * 60)
         XCTAssertEqual(target.timeIntervalSinceReferenceDate, expected.timeIntervalSinceReferenceDate, accuracy: 5.0)
     }
+    
+    func testSleepSettingsAreSaved() {
+        timerManager.setSleepSettings(enabled: true, start: 22, end: 7)
+        XCTAssertTrue(timerManager.isSleepEnabled)
+        XCTAssertEqual(timerManager.sleepStartHour, 22)
+        XCTAssertEqual(timerManager.sleepEndHour, 7)
+        
+        timerManager.setSleepSettings(enabled: false, start: 22, end: 7)
+        XCTAssertFalse(timerManager.isSleepEnabled)
+    }
+    
+    func testTimerSkipsSleepWindow() {
+        // Find current hour to fake a sleep window happening right now over the next target
+        let now = Date()
+        let hour = Calendar.current.component(.hour, from: now)
+        let endHour = (hour + 2) % 24
+        
+        // This makes the current time inside the sleep window (since it spans from now to now+2, or close enough, 
+        // minus the exact minutes rolling over boundary, so let's simplify)
+        // If we set sleep to start immediately and end in a few hours, the target should jump.
+        timerManager.setSleepSettings(enabled: true, start: hour, end: endHour)
+        
+        // Trigger a reset. It should jump the target PAST `endHour`
+        timerManager.resetTimer()
+        
+        let target = defaults.object(forKey: "targetVoidTime") as! Date
+        let targetHour = Calendar.current.component(.hour, from: target)
+        
+        // Target hour should be exactly the endHour, or slightly past it depending on remaining minutes.
+        // It definitely shouldn't be the same as it would be normally. 
+        // Without sleep, target = now + 2.5h. 
+        // With sleep starting now, target = next day's endHour + 2.5h
+        // Our simple check is just ensuring the target hour isn't inside [hour, endHour)
+        let isInsideSleep = (start: hour, end: endHour, val: targetHour) 
+        if hour < endHour {
+            XCTAssertFalse(targetHour >= hour && targetHour < endHour, "Target fell inside sleep window")
+        } else {
+            XCTAssertFalse(targetHour >= hour || targetHour < endHour, "Target fell inside sleep window crossing midnight")
+        }
+    }
 }

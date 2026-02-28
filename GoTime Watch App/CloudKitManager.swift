@@ -17,9 +17,28 @@ class CloudKitManager: ObservableObject {
     @Published var isSaving = false
     @Published var lastError: String?
     
+    // Offline Sync Queue
+    private let pendingLogsKey = "pending_cloudkit_logs"
+    
+    private var pendingLogs: [LogEntry] {
+        get {
+            guard let data = UserDefaults.standard.data(forKey: pendingLogsKey) else { return [] }
+            return (try? JSONDecoder().decode([LogEntry].self, from: data)) ?? []
+        }
+        set {
+            if let data = try? JSONEncoder().encode(newValue) {
+                UserDefaults.standard.set(data, forKey: pendingLogsKey)
+            }
+        }
+    }
+    
     init() {
         // Initialize Zone
         createZoneIfNeeded()
+        // Retry any pending uploads
+        Task {
+            await syncPendingLogs()
+        }
     }
     
     // MARK: - Zone Management
@@ -41,24 +60,81 @@ class CloudKitManager: ObservableObject {
     
     // MARK: - Saving Records
     func save(log: LogEntry) {
-        // 1. Create Record ID in the Custom Zone
-        let recordID = CKRecord.ID(recordName: log.id.uuidString, zoneID: zoneId)
-        let record = CKRecord(recordType: "PottyEvent", recordID: recordID)
+        // Add to pending queue
+        var logs = pendingLogs
+        logs.append(log)
+        pendingLogs = logs
         
-        // 2. Set Fields
-        record["type"] = log.type.rawValue
-        record["date"] = log.date
-        if let extras = log.extraData {
-            record["extraData"] = extras
+        Task {
+            await syncPendingLogs()
+        }
+    }
+    
+    func syncPendingLogs() async {
+        // Prevent concurrent syncs
+        guard !isSaving else { return }
+        
+        // Check if there are logs to sync
+        let logsToSync = pendingLogs
+        guard !logsToSync.isEmpty else { return }
+        
+        await MainActor.run { isSaving = true }
+        
+        defer {
+            Task { @MainActor in isSaving = false }
         }
         
-        // 3. Save
-        container.privateCloudDatabase.save(record) { record, error in
-            if let error = error {
-                print("CloudKit Save Error: \(error.localizedDescription)")
-                DispatchQueue.main.async { self.lastError = error.localizedDescription }
-            } else {
-                print("Saved to CloudKit")
+        // Convert to CKRecords
+        let records = logsToSync.map { log -> CKRecord in
+            let recordID = CKRecord.ID(recordName: log.id.uuidString, zoneID: zoneId)
+            let record = CKRecord(recordType: "PottyEvent", recordID: recordID)
+            record["type"] = log.type.rawValue
+            record["date"] = log.date
+            if let extras = log.extraData {
+                record["extraData"] = extras
+            }
+            return record
+        }
+        
+        do {
+            let (saveResults, _) = try await container.privateCloudDatabase.modifyRecords(saving: records, deleting: [])
+            
+            await MainActor.run {
+                // Collect successful record IDs
+                var successfulRecordIDs: [CKRecord.ID] = []
+                for (recordID, result) in saveResults {
+                    switch result {
+                    case .success:
+                        successfulRecordIDs.append(recordID)
+                    case .failure(let error):
+                        print("Error saving record \(recordID): \(error.localizedDescription)")
+                    }
+                }
+                
+                // Remove successful logs from pending queue
+                if !successfulRecordIDs.isEmpty {
+                    var currentPending = self.pendingLogs
+                    // Map recordIDs to UUIDs
+                    let savedUUIDs = successfulRecordIDs.compactMap { UUID(uuidString: $0.recordName) }
+                    currentPending.removeAll { log in savedUUIDs.contains(log.id) }
+                    self.pendingLogs = currentPending
+                    print("Synced \(successfulRecordIDs.count) logs to CloudKit. Remaining: \(currentPending.count)")
+                }
+                
+                print("CloudKit Sync finished successfully.")
+            }
+            
+            // Check if more logs are pending (added during sync) and recurse if we made progress
+            // Note: In async context, we can just call it again.
+            // Check safely on main actor or just read from UserDefaults (which is thread safe)
+            if !pendingLogs.isEmpty {
+                 await syncPendingLogs()
+            }
+            
+        } catch {
+            await MainActor.run {
+                print("CloudKit Sync Error: \(error.localizedDescription)")
+                self.lastError = error.localizedDescription
             }
         }
     }

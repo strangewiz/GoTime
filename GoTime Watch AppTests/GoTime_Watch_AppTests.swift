@@ -11,26 +11,51 @@ import XCTest
 final class GoTime_Watch_AppTests: XCTestCase {
 
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        // Clear pending logs before each test
+        UserDefaults.standard.removeObject(forKey: "pending_cloudkit_logs")
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        // Clear pending logs after each test
+        UserDefaults.standard.removeObject(forKey: "pending_cloudkit_logs")
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    func testCloudKitManagerQueuesLogs() throws {
+        let manager = CloudKitManager.shared
+        
+        let initialData = UserDefaults.standard.data(forKey: "pending_cloudkit_logs")
+        let initialLogs = initialData.flatMap { try? JSONDecoder().decode([LogEntry].self, from: $0) } ?? []
+        XCTAssertTrue(initialLogs.isEmpty, "Pending logs should be empty initially")
+        
+        // Save a mock log
+        let log = LogEntry(id: UUID(), type: .pee, date: Date(), extraData: nil)
+        manager.save(log: log)
+        
+        // Wait a small amount for synchronous part of save to finish
+        // the addition to pendingLogs is synchronous before the Task starts.
+        
+        let newData = UserDefaults.standard.data(forKey: "pending_cloudkit_logs")
+        let newLogs = newData.flatMap { try? JSONDecoder().decode([LogEntry].self, from: $0) } ?? []
+        
+        XCTAssertEqual(newLogs.count, 1, "There should be one pending log")
+        XCTAssertEqual(newLogs.first?.id, log.id, "The queued log should match the saved log")
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    
+    func testCloudKitManagerQueuesMultipleLogs() throws {
+        let manager = CloudKitManager.shared
+        
+        let log1 = LogEntry(id: UUID(), type: .pee, date: Date(), extraData: nil)
+        let log2 = LogEntry(id: UUID(), type: .poop, date: Date(), extraData: nil)
+        
+        manager.save(log: log1)
+        manager.save(log: log2)
+        
+        let newData = UserDefaults.standard.data(forKey: "pending_cloudkit_logs")
+        let newLogs = newData.flatMap { try? JSONDecoder().decode([LogEntry].self, from: $0) } ?? []
+        
+        XCTAssertEqual(newLogs.count, 2, "There should be two pending logs queued")
+        XCTAssertEqual(newLogs.first?.id, log1.id)
+        XCTAssertEqual(newLogs.last?.id, log2.id)
     }
 
 }
