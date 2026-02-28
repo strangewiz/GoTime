@@ -83,6 +83,15 @@
 <body>
 
     <div class="container">
+        <div style="text-align: right; margin-bottom: 10px;">
+            <label for="env-select" style="font-size: 0.9em; color: #555;">Environment: </label>
+            <select id="env-select" onchange="switchEnvironment()"
+                style="padding: 4px; border-radius: 4px; border: 1px solid #ccc;">
+                <option value="development">Development</option>
+                <option value="production">Production</option>
+            </select>
+        </div>
+
         <h1>GoTime Dashboard</h1>
 
         <div id="auth-root" class="auth-container">
@@ -110,21 +119,32 @@
         </div>
     </div>
 
-    <script src="config.js"></script>
     <script>
-        // Check for Config
-        if (typeof CONFIG === 'undefined') {
-            alert("Error: config.js not found. Please rename config.example.js to config.js and add your API Token.");
+        const CONFIG = {
+            CONTAINER_IDENTIFIER: 'iCloud.com.justinsc.GoTime.watchkitapp',
+            TOKENS: {
+                'development': 'f799a574cbb822d30cf740306559d6a3c00b52d70d625100247c685340382b64',
+                'production': '8662147ce8978eb0f8f2a3a516cfcd04e16cb62defb77692e8c565ec7572e98e'
+            }
+        };
+
+        const currentEnv = localStorage.getItem('gotime_environment') || 'development';
+        document.getElementById('env-select').value = currentEnv;
+
+        function switchEnvironment() {
+            const newEnv = document.getElementById('env-select').value;
+            localStorage.setItem('gotime_environment', newEnv);
+            window.location.reload();
         }
 
         CloudKit.configure({
             containers: [{
                 containerIdentifier: CONFIG.CONTAINER_IDENTIFIER,
                 apiTokenAuth: {
-                    apiToken: CONFIG.API_TOKEN,
+                    apiToken: CONFIG.TOKENS[currentEnv],
                     persist: true
                 },
-                environment: 'development' // Change to 'production' when deploying
+                environment: currentEnv
             }]
         });
 
