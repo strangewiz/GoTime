@@ -95,7 +95,7 @@
         <h1>GoTime Dashboard</h1>
 
         <div id="auth-root" class="auth-container">
-            <div id="apple-sign-in-button" style="display: none; margin: 0 auto; width: 200px;"></div>
+            <div id="apple-sign-in-button" style="display: none; margin: 0 auto; width: 240px; height: 44px;"></div>
         </div>
 
         <div id="logs-container">
@@ -139,15 +139,13 @@
                 containerIdentifier: CONFIG.CONTAINER_IDENTIFIER,
                 apiTokenAuth: {
                     apiToken: CONFIG.TOKENS[currentEnv],
-                    persist: true
-                },
-                environment: currentEnv,
-                auth: {
-                    button: {
+                    persist: true,
+                    signInButton: {
                         id: 'apple-sign-in-button',
                         theme: 'black'
                     }
-                }
+                },
+                environment: currentEnv
             }]
         });
 
