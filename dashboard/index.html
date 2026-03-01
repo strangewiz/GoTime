@@ -95,10 +95,7 @@
         <h1>GoTime Dashboard</h1>
 
         <div id="auth-root" class="auth-container">
-            <button id="custom-apple-auth-btn"
-                style="display:none; background: #000; color: #fff; border: none; padding: 12px 24px; border-radius: 20px; font-size: 16px; cursor: pointer;">
-                 Sign In with Apple
-            </button>
+            <div id="apple-sign-in-button" style="display: none; margin: 0 auto; width: 200px;"></div>
         </div>
 
         <div id="logs-container">
@@ -144,7 +141,13 @@
                     apiToken: CONFIG.TOKENS[currentEnv],
                     persist: true
                 },
-                environment: currentEnv
+                environment: currentEnv,
+                auth: {
+                    button: {
+                        id: 'apple-sign-in-button',
+                        theme: 'black'
+                    }
+                }
             }]
         });
 
@@ -173,20 +176,9 @@
 
             if (error) console.error(error);
 
-            // Show Button
-            const btn = document.getElementById('custom-apple-auth-btn');
-            btn.style.display = 'inline-block';
-
-            btn.onclick = function () {
-                window.CloudKit.getDefaultContainer().authenticate()
-                    .then(userInfo => {
-                        if (userInfo) gotoAuthenticatedState(userInfo);
-                    })
-                    .catch(err => {
-                        console.error(err);
-                        alert("Sign In Error: " + err);
-                    });
-            };
+            // CloudKit JS will auto-render the authentic Apple button into this div
+            const btn = document.getElementById('apple-sign-in-button');
+            btn.style.display = 'block';
         }
 
         // Initialize
