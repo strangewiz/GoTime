@@ -95,7 +95,7 @@
         <h1>GoTime Dashboard</h1>
 
         <div id="auth-root" class="auth-container">
-            <button id="apple-sign-in-button"
+            <button id="custom-apple-auth-btn"
                 style="display:none; background: #000; color: #fff; border: none; padding: 12px 24px; border-radius: 20px; font-size: 16px; cursor: pointer;">
                  Sign In with Apple
             </button>
@@ -161,7 +161,7 @@
             if (error) console.error(error);
 
             // Show Button
-            const btn = document.getElementById('apple-sign-in-button');
+            const btn = document.getElementById('custom-apple-auth-btn');
             btn.style.display = 'inline-block';
 
             btn.onclick = function () {
