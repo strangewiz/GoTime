@@ -22,7 +22,10 @@ struct ShareView: View {
                             .font(.footnote)
                             .foregroundColor(.secondary)
                         
-                        ShareLink(item: url.absoluteString, subject: Text("GoTime Link"), message: Text("Paste this link into the GoTime Parent Dashboard: \(url.absoluteString)")) {
+                        let safeShareURL = url.absoluteString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? url.absoluteString
+                        let dashboardURL = "https://strangewiz.github.io/GoTime/dashboard/?share=\(safeShareURL)"
+                        
+                        ShareLink(item: dashboardURL, subject: Text("GoTime Dashboard Link"), message: Text("Click this link to open the dashboard and view logs:\n\(dashboardURL)\n\nOr paste the raw iCloud link: \(url.absoluteString)")) {
                             Label("Send Link", systemImage: "paperplane.fill")
                                 .font(.headline)
                                 .foregroundColor(.white)

@@ -151,7 +151,20 @@
         function gotoAuthenticatedState(userInfo) {
             document.getElementById('auth-root').style.display = 'none';
             document.getElementById('logs-container').style.display = 'block';
-            fetchLogs();
+
+            // Check if user came from a shared watch link
+            const urlParams = new URLSearchParams(window.location.search);
+            const shareParam = urlParams.get('share');
+
+            if (shareParam) {
+                document.getElementById('share-url-input').value = shareParam;
+                acceptShare();
+
+                // Keep the URL clean after accepting (Optional but nice)
+                window.history.replaceState({}, document.title, window.location.pathname);
+            } else {
+                fetchLogs();
+            }
         }
 
         function gotoUnauthenticatedState(error) {
