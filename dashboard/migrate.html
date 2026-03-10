@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoTime Data Migration Tool</title>
+    <script src="https://cdn.apple-cloudkit.com/ck/2/cloudkit.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: #fefefe;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #007aff;
+        }
+
+        .auth-container {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .header-controls {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .header-controls select {
+            padding: 4px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .action-button {
+            background: none;
+            border: 1px solid #007aff;
+            color: #007aff;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            display: inline-block;
+            margin: 10px;
+        }
+
+        .action-button:hover {
+            background: #f0f8ff;
+        }
+
+        .card {
+            background: #f0f8ff;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #cce5ff;
+            text-align: center;
+        }
+
+        .card h3 {
+            margin-top: 0;
+        }
+
+        #migrator-container {
+            display: none;
+        }
+
+        .sign-in-wrapper,
+        .sign-out-wrapper {
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+
+        #apple-sign-in-button,
+        #btn-sign-out {
+            opacity: 0.01;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 20;
+        }
+
+        .sign-in-overlay,
+        .sign-out-overlay {
+            background: #fff;
+            border: 1px solid #007aff;
+            color: #007aff;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .sign-in-overlay {
+            padding: 10px 20px;
+            font-size: 1.1em;
+            border-radius: 8px;
+            background: #007aff;
+            color: #fff;
+        }
+
+        #status-message {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #d9534f;
+            /* generic error color */
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="header-controls">
+            <div>
+                <label for="env-select" style="font-size: 0.9em; color: #555;">Environment: </label>
+                <select id="env-select" onchange="switchEnvironment()">
+                    <option value="development">Development</option>
+                    <option value="production">Production</option>
+                </select>
+            </div>
+            <div id="sign-out-container" class="sign-out-wrapper" style="display: none;">
+                <div id="btn-sign-out"></div>
+                <div class="sign-out-overlay">Sign Out</div>
+            </div>
+        </div>
+
+        <h1>Data Migration Tool</h1>
+
+        <div id="auth-root" class="auth-container">
+            <p>Please sign in with the <b>Apple ID of the child</b> who recorded the data.</p>
+            <div id="sign-in-container" class="sign-in-wrapper" style="display: none;">
+                <div id="apple-sign-in-button"></div>
+                <div class="sign-in-overlay">Sign in with Apple</div>
+            </div>
+        </div>
+
+        <div id="migrator-container">
+
+            <div class="card" id="export-card">
+                <h3>Step 1: Export Data (Development)</h3>
+                <p>Ensure your environment is set to <b>Development</b>, then click export to save your history.</p>
+                <button class="action-button" onclick="exportData()">Export Data</button>
+            </div>
+
+            <div class="card" id="import-card">
+                <h3>Step 2: Import Data (Production)</h3>
+                <p>Switch your environment to <b>Production</b> (you may need to sign in again), then upload your JSON
+                    export.</p>
+                <input type="file" id="import-file" accept=".json" style="margin-bottom: 10px;"><br>
+                <button class="action-button" onclick="importData()">Import Data</button>
+            </div>
+
+            <div id="status-message"></div>
+        </div>
+
+        <div
+            style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; font-size: 0.9em;">
+            <a href="index.html" style="color: #007aff; text-decoration: none;">&larr; Back to Dashboard</a>
+        </div>
+    </div>
+
+    <script>
+        const CONFIG = {
+            CONTAINER_IDENTIFIER: 'iCloud.com.justinsc.GoTime.watchkitapp',
+            TOKENS: {
+                'development': '16b7cae90ef09c5f598d3d7bebab5fffd128cc4b8f5b0f5dd5ccfe9a8d39609a',
+                'production': '1ec1540b07e5cdcba1946db620be551c718cede7f5e9078b37556ac65d597bfb'
+            }
+        };
+
+        const currentEnv = localStorage.getItem('gotime_environment') || 'development';
+        document.getElementById('env-select').value = currentEnv;
+
+        function switchEnvironment() {
+            const newEnv = document.getElementById('env-select').value;
+            localStorage.setItem('gotime_environment', newEnv);
+            window.location.reload();
+        }
+
+        CloudKit.configure({
+            containers: [{
+                containerIdentifier: CONFIG.CONTAINER_IDENTIFIER,
+                apiTokenAuth: {
+                    apiToken: CONFIG.TOKENS[currentEnv],
+                    persist: true,
+                    signInButton: {
+                        id: 'apple-sign-in-button',
+                        theme: 'black'
+                    },
+                    signOutButton: {
+                        id: 'btn-sign-out',
+                        theme: 'black'
+                    }
+                },
+                environment: currentEnv
+            }]
+        });
+
+        function gotoAuthenticatedState(userInfo) {
+            document.getElementById('auth-root').style.display = 'none';
+            document.getElementById('migrator-container').style.display = 'block';
+            document.getElementById('sign-out-container').style.display = 'inline-block';
+
+            // Highlight appropriate card based on environment
+            if (currentEnv === 'development') {
+                document.getElementById('export-card').style.opacity = '1';
+                document.getElementById('import-card').style.opacity = '0.5';
+            } else {
+                document.getElementById('export-card').style.opacity = '0.5';
+                document.getElementById('import-card').style.opacity = '1';
+            }
+        }
+
+        function gotoUnauthenticatedState(error) {
+            document.getElementById('auth-root').style.display = 'block';
+            document.getElementById('migrator-container').style.display = 'none';
+            document.getElementById('sign-out-container').style.display = 'none';
+
+            if (error) console.error(error);
+
+            const btn = document.getElementById('sign-in-container');
+            btn.style.display = 'inline-block';
+        }
+
+        // Initialize Auth
+        window.CloudKit.getDefaultContainer().setUpAuth()
+            .then(userInfo => {
+                if (userInfo) {
+                    gotoAuthenticatedState(userInfo);
+                } else {
+                    gotoUnauthenticatedState();
+                }
+            })
+            .catch(error => {
+                console.error("Auth Init Error:", error);
+                gotoUnauthenticatedState(error);
+            });
+
+        // Listen for Apple events and use fallback polling
+        window.addEventListener('apple-auth-signin', (event) => gotoAuthenticatedState(event.detail));
+        window.addEventListener('apple-auth-signout', () => {
+            gotoUnauthenticatedState();
+            window.location.reload();
+        });
+
+        document.getElementById('sign-in-container').addEventListener('click', () => {
+            document.querySelector('.sign-in-overlay').innerText = "Signing In...";
+            let checkCount = 0;
+            const checkAuth = setInterval(() => {
+                window.CloudKit.getDefaultContainer().setUpAuth().then(userInfo => {
+                    if (userInfo) {
+                        clearInterval(checkAuth);
+                        gotoAuthenticatedState(userInfo);
+                        document.querySelector('.sign-in-overlay').innerText = "Sign in with Apple";
+                    }
+                }).catch(e => { });
+                checkCount++;
+                if (checkCount > 120) {
+                    clearInterval(checkAuth);
+                    document.querySelector('.sign-in-overlay').innerText = "Sign in with Apple";
+                }
+            }, 500);
+        });
+
+        document.getElementById('sign-out-container').addEventListener('click', () => {
+            document.querySelector('.sign-out-overlay').innerText = "Signing Out...";
+            setTimeout(() => {
+                gotoUnauthenticatedState();
+                window.location.reload();
+            }, 600);
+        });
+
+        function showStatus(msg, isError = false) {
+            const el = document.getElementById('status-message');
+            el.innerText = msg;
+            el.style.color = isError ? '#d9534f' : '#5cb85c';
+        }
+
+        async function exportData() {
+            if (currentEnv !== 'development') {
+                showStatus("Please switch to Development environment to export.", true);
+                return;
+            }
+
+            try {
+                showStatus("Fetching all records from Development...");
+                const container = CloudKit.getDefaultContainer();
+                const privateDB = container.privateCloudDatabase;
+
+                // Watchmaker created a custom zone: GoTimeZone
+                const zoneId = { zoneName: "GoTimeZone", ownerRecordName: "_defaultOwner" };
+
+                const query = {
+                    recordType: 'PottyEvent',
+                    sortBy: [{ fieldName: 'date', ascending: false }]
+                };
+
+                const result = await privateDB.performQuery(query, { zoneID: zoneId });
+                const records = result.records || [];
+
+                if (records.length === 0) {
+                    showStatus("No records found in this account.", true);
+                    return;
+                }
+
+                // Map to a clean JSON structure
+                const exportData = records.map(r => ({
+                    id: r.recordName,
+                    type: r.fields.type.value,
+                    date: r.fields.date.value,
+                    extraData: r.fields.extraData ? r.fields.extraData.value : null
+                }));
+
+                const jsonStr = JSON.stringify(exportData, null, 2);
+                const blob = new Blob([jsonStr], { type: "application/json" });
+                const url = URL.createObjectURL(blob);
+
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = `gotime_export_${new Date().getTime()}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                showStatus(`Successfully exported ${records.length} records! Now switch to Production.`);
+
+            } catch (error) {
+                console.error("Export Error:", error);
+                showStatus(`Export failed: ${error.message}`, true);
+            }
+        }
+
+        async function importData() {
+            if (currentEnv !== 'production') {
+                showStatus("Please switch to Production environment to import.", true);
+                return;
+            }
+
+            const fileInput = document.getElementById('import-file');
+            if (!fileInput.files.length) {
+                showStatus("Please select a JSON file first.", true);
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = async function (e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (!Array.isArray(data)) throw new Error("Invalid JSON format");
+
+                    showStatus(`Found ${data.length} records. Uploading to Production...`);
+
+                    const container = CloudKit.getDefaultContainer();
+                    const privateDB = container.privateCloudDatabase;
+                    const zoneId = { zoneName: "GoTimeZone", ownerRecordName: "_defaultOwner" };
+
+                    // 1. Create the custom zone if it doesn't exist just in case
+                    try {
+                        await privateDB.saveRecordZone({ zoneID: zoneId });
+                    } catch (ze) {
+                        console.log("Zone might already exist or creation failed:", ze);
+                    }
+
+                    // 2. Prepare records
+                    const recordsToSave = data.map(item => {
+                        const rec = {
+                            recordType: "PottyEvent",
+                            recordName: item.id, // Preserve original UUIDs
+                            zoneID: zoneId,
+                            fields: {
+                                type: { value: item.type },
+                                date: { value: item.date }
+                            }
+                        };
+                        if (item.extraData) {
+                            rec.fields.extraData = { value: item.extraData };
+                        }
+                        return rec;
+                    });
+
+                    // 3. Save Records using modifyRecords (batch)
+                    // Note: CloudKit limits batch sizes. For safety, let's chunk them if needed, 
+                    // though 50-100 items should easily fit in one request.
+                    const chunkSize = 100;
+                    for (let i = 0; i < recordsToSave.length; i += chunkSize) {
+                        const chunk = recordsToSave.slice(i, i + chunkSize);
+                        await privateDB.saveRecords(chunk);
+                    }
+
+                    showStatus(`Successfully imported ${recordsToSave.length} records! Migration complete.`);
+
+                } catch (error) {
+                    console.error("Import Error:", error);
+                    showStatus(`Import failed: ${error.message}`, true);
+                }
+            };
+
+            reader.readAsText(file);
+        }
+
+    </script>
+</body>
+
+</html>
