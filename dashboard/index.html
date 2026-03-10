@@ -116,19 +116,52 @@
             margin-bottom: 20px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
+
+        .header-controls {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .header-controls select {
+            padding: 4px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .action-button {
+            background: none;
+            border: 1px solid #007aff;
+            color: #007aff;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            display: none;
+            /* Hidden by default */
+        }
+
+        .action-button:hover {
+            background: #f0f8ff;
+        }
     </style>
 </head>
 
 <body>
 
     <div class="container">
-        <div style="text-align: right; margin-bottom: 10px;">
-            <label for="env-select" style="font-size: 0.9em; color: #555;">Environment: </label>
-            <select id="env-select" onchange="switchEnvironment()"
-                style="padding: 4px; border-radius: 4px; border: 1px solid #ccc;">
-                <option value="development">Development</option>
-                <option value="production">Production</option>
-            </select>
+        <div class="header-controls">
+            <div>
+                <label for="env-select" style="font-size: 0.9em; color: #555;">Environment: </label>
+                <select id="env-select" onchange="switchEnvironment()">
+                    <option value="development">Development</option>
+                    <option value="production">Production</option>
+                </select>
+            </div>
+            <button id="btn-new-link" class="action-button" onclick="showConnectForm()">New Share Link</button>
+            <button id="btn-sign-out" class="action-button" onclick="signOut()">Sign Out</button>
         </div>
 
         <h1>GoTime Dashboard</h1>
@@ -138,7 +171,7 @@
         </div>
 
         <div id="logs-container">
-            <div
+            <div id="connect-container"
                 style="background: #f0f8ff; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center; border: 1px solid #cce5ff;">
                 <h3>Step 2: Connect to Child</h3>
                 <p style="font-size: 0.9em; color: #555;">Paste the iCloud Share link generated from the Watch here to
@@ -219,6 +252,9 @@
             document.getElementById('auth-root').style.display = 'none';
             document.getElementById('logs-container').style.display = 'block';
 
+            document.getElementById('btn-sign-out').style.display = 'inline-block';
+            document.getElementById('btn-new-link').style.display = 'inline-block';
+
             // Check if user came from a shared watch link
             const urlParams = new URLSearchParams(window.location.search);
             const shareParam = urlParams.get('share');
@@ -237,6 +273,9 @@
         function gotoUnauthenticatedState(error) {
             document.getElementById('auth-root').style.display = 'block';
             document.getElementById('logs-container').style.display = 'none';
+
+            document.getElementById('btn-sign-out').style.display = 'none';
+            document.getElementById('btn-new-link').style.display = 'none';
 
             if (error) console.error(error);
 
@@ -263,6 +302,27 @@
         window.addEventListener('apple-auth-signin', (event) => {
             gotoAuthenticatedState(event.detail);
         });
+
+        async function signOut() {
+            try {
+                // CloudKit JS often needs the user to sign out at the iCloud portal if they want a complete wipe,
+                // but we can at least drop their local dashboard view by hard reloading.
+                document.getElementById('btn-sign-out').innerText = "Signing Out...";
+                gotoUnauthenticatedState();
+                window.location.reload();
+            } catch (error) {
+                console.error("Error signing out:", error);
+            }
+        }
+
+        function showConnectForm() {
+            document.getElementById('connect-container').style.display = 'block';
+            document.getElementById('share-url-input').focus();
+        }
+
+        function hideConnectForm() {
+            document.getElementById('connect-container').style.display = 'none';
+        }
 
         async function acceptShare() {
             const input = document.getElementById('share-url-input');
@@ -336,6 +396,8 @@
                     }
                 }
 
+                if (allLogs.length > 0) hideConnectForm();
+
                 renderLogs(allLogs);
 
             } catch (error) {
@@ -350,6 +412,7 @@
 
             if (logs.length === 0) {
                 document.getElementById('child-name').innerText = "No shared logs found.";
+                showConnectForm();
                 return;
             }
 
