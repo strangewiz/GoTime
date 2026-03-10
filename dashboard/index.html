@@ -147,6 +147,7 @@
             background: #f0f8ff;
         }
 
+        .sign-in-wrapper,
         .sign-out-wrapper {
             position: relative;
             display: inline-block;
@@ -156,6 +157,7 @@
         }
 
         /* The container Apple injects its iframe into */
+        #apple-sign-in-button,
         #btn-sign-out {
             opacity: 0.01;
             /* make it practically invisible but still clickable */
@@ -167,6 +169,7 @@
             z-index: 20;
         }
 
+        .sign-in-overlay,
         .sign-out-overlay {
             background: #fff;
             border: 1px solid #007aff;
@@ -178,6 +181,15 @@
             align-items: center;
             justify-content: center;
             z-index: 10;
+        }
+
+        .sign-in-overlay {
+            /* Make the sign-in button slightly larger to match the general flow */
+            padding: 10px 20px;
+            font-size: 1.1em;
+            border-radius: 8px;
+            background: #007aff;
+            color: #fff;
         }
     </style>
 </head>
@@ -203,7 +215,10 @@
         <h1>GoTime Dashboard</h1>
 
         <div id="auth-root" class="auth-container">
-            <div id="apple-sign-in-button" style="display: none;"></div>
+            <div id="sign-in-container" class="sign-in-wrapper" style="display: none;">
+                <div id="apple-sign-in-button"></div>
+                <div class="sign-in-overlay">Sign in with Apple</div>
+            </div>
         </div>
 
         <div id="logs-container">
@@ -319,8 +334,8 @@
 
             if (error) console.error(error);
 
-            // CloudKit JS will auto-render the authentic Apple button into this div
-            const btn = document.getElementById('apple-sign-in-button');
+            // CloudKit JS will auto-render the authentic Apple button into the inner div
+            const btn = document.getElementById('sign-in-container');
             btn.style.display = 'inline-block';
         }
 
