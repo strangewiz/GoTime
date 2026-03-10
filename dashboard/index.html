@@ -146,6 +146,39 @@
         .action-button:hover {
             background: #f0f8ff;
         }
+
+        .sign-out-wrapper {
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+            /* Hide anything that spills out */
+            border-radius: 4px;
+        }
+
+        /* The container Apple injects its iframe into */
+        #btn-sign-out {
+            opacity: 0.01;
+            /* make it practically invisible but still clickable */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 20;
+        }
+
+        .sign-out-overlay {
+            background: #fff;
+            border: 1px solid #007aff;
+            color: #007aff;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
     </style>
 </head>
 
@@ -161,7 +194,10 @@
                 </select>
             </div>
             <button id="btn-new-link" class="action-button" onclick="showConnectForm()">New Share Link</button>
-            <div id="btn-sign-out" style="display: none;"></div>
+            <div id="sign-out-container" class="sign-out-wrapper" style="display: none;">
+                <div id="btn-sign-out"></div>
+                <div class="sign-out-overlay">Sign Out</div>
+            </div>
         </div>
 
         <h1>GoTime Dashboard</h1>
@@ -256,7 +292,7 @@
             document.getElementById('auth-root').style.display = 'none';
             document.getElementById('logs-container').style.display = 'block';
 
-            document.getElementById('btn-sign-out').style.display = 'inline-block';
+            document.getElementById('sign-out-container').style.display = 'inline-block';
             document.getElementById('btn-new-link').style.display = 'inline-block';
 
             // Check if user came from a shared watch link
@@ -278,7 +314,7 @@
             document.getElementById('auth-root').style.display = 'block';
             document.getElementById('logs-container').style.display = 'none';
 
-            document.getElementById('btn-sign-out').style.display = 'none';
+            document.getElementById('sign-out-container').style.display = 'none';
             document.getElementById('btn-new-link').style.display = 'none';
 
             if (error) console.error(error);
@@ -307,10 +343,21 @@
             gotoAuthenticatedState(event.detail);
         });
 
-        // Listen for successful sign-out
+        // Listen for successful sign-out from Apple
         window.addEventListener('apple-auth-signout', () => {
             gotoUnauthenticatedState();
             window.location.reload();
+        });
+
+        // Fallback: If the user clicks the sign out container, we anticipate the sign-out 
+        // to happen, so we force the UI clear and reload shortly after. CloudKit's JS SDK
+        // iframe sometimes swallows the event across domains on certain browsers.
+        document.getElementById('sign-out-container').addEventListener('click', () => {
+            document.querySelector('.sign-out-overlay').innerText = "Signing Out...";
+            setTimeout(() => {
+                gotoUnauthenticatedState();
+                window.location.reload();
+            }, 600);
         });
 
         function showConnectForm() {
