@@ -161,7 +161,7 @@
                 </select>
             </div>
             <button id="btn-new-link" class="action-button" onclick="showConnectForm()">New Share Link</button>
-            <button id="btn-sign-out" class="action-button" onclick="signOut()">Sign Out</button>
+            <div id="btn-sign-out" style="display: none;"></div>
         </div>
 
         <h1>GoTime Dashboard</h1>
@@ -242,6 +242,10 @@
                     signInButton: {
                         id: 'apple-sign-in-button',
                         theme: 'black'
+                    },
+                    signOutButton: {
+                        id: 'btn-sign-out',
+                        theme: 'black'
                     }
                 },
                 environment: currentEnv
@@ -303,17 +307,11 @@
             gotoAuthenticatedState(event.detail);
         });
 
-        async function signOut() {
-            try {
-                // CloudKit JS often needs the user to sign out at the iCloud portal if they want a complete wipe,
-                // but we can at least drop their local dashboard view by hard reloading.
-                document.getElementById('btn-sign-out').innerText = "Signing Out...";
-                gotoUnauthenticatedState();
-                window.location.reload();
-            } catch (error) {
-                console.error("Error signing out:", error);
-            }
-        }
+        // Listen for successful sign-out
+        window.addEventListener('apple-auth-signout', () => {
+            gotoUnauthenticatedState();
+            window.location.reload();
+        });
 
         function showConnectForm() {
             document.getElementById('connect-container').style.display = 'block';
