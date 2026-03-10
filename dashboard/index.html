@@ -364,6 +364,32 @@
             window.location.reload();
         });
 
+        // Fallback: If the user clicks the sign in container, we anticipate the sign-in 
+        // to happen, so we force the UI clear and check state shortly after. CloudKit's JS SDK
+        // iframe sometimes swallows the event across domains on certain browsers.
+        document.getElementById('sign-in-container').addEventListener('click', () => {
+            document.querySelector('.sign-in-overlay').innerText = "Signing In...";
+
+            // We can't just reload like sign out; we have to wait for the popup flow to finish.
+            // A common workaround is polling CloudKit state since the Apple event drops.
+            let checkCount = 0;
+            const checkAuth = setInterval(() => {
+                window.CloudKit.getDefaultContainer().setUpAuth().then(userInfo => {
+                    if (userInfo) {
+                        clearInterval(checkAuth);
+                        gotoAuthenticatedState(userInfo);
+                        document.querySelector('.sign-in-overlay').innerText = "Sign in with Apple";
+                    }
+                }).catch(e => { /* Ignore errors during polling */ });
+
+                checkCount++;
+                if (checkCount > 120) { // Timeout after 60 seconds (user might have closed popup)
+                    clearInterval(checkAuth);
+                    document.querySelector('.sign-in-overlay').innerText = "Sign in with Apple";
+                }
+            }, 500);
+        });
+
         // Fallback: If the user clicks the sign out container, we anticipate the sign-out 
         // to happen, so we force the UI clear and reload shortly after. CloudKit's JS SDK
         // iframe sometimes swallows the event across domains on certain browsers.
