@@ -404,12 +404,38 @@
                     // Note: CloudKit limits batch sizes. For safety, let's chunk them if needed, 
                     // though 50-100 items should easily fit in one request.
                     const chunkSize = 100;
+                    let totalImported = 0;
+                    let errorMessages = [];
+
                     for (let i = 0; i < recordsToSave.length; i += chunkSize) {
                         const chunk = recordsToSave.slice(i, i + chunkSize);
-                        await privateDB.saveRecords(chunk);
+                        const response = await privateDB.saveRecords(chunk).catch(e => {
+                            console.error("Network/Exception error:", e);
+                            errorMessages.push(e.message || "Network error");
+                            return { hasErrors: true, errors: [e], records: [] };
+                        });
+
+                        if (response.hasErrors && response.errors) {
+                            response.errors.forEach(err => {
+                                console.error("Record save error:", err);
+                                if (errorMessages.length < 5) {
+                                    errorMessages.push(err.message || err.reason || JSON.stringify(err));
+                                }
+                            });
+                        }
+
+                        if (response.records && response.records.length > 0) {
+                            totalImported += response.records.length;
+                        } else if (Array.isArray(response) && !response.hasErrors) {
+                            totalImported += response.length;
+                        }
                     }
 
-                    showStatus(`Successfully imported ${recordsToSave.length} records! Migration complete.`);
+                    if (errorMessages.length > 0) {
+                        showStatus(`Import finished with errors. Imported ${totalImported} records. First errors: ${errorMessages.join(' | ')}`, true);
+                    } else {
+                        showStatus(`Successfully imported ${totalImported} records! Migration complete.`);
+                    }
 
                 } catch (error) {
                     console.error("Import Error:", error);
