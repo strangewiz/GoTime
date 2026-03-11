@@ -17,7 +17,7 @@ GoTime is a specialized watchOS application designed to help track intermittent 
 - **CloudKit Sync**: Logs are pushed to a private database and can be viewed via the Web Dashboard or shared with parents.
 - **Offline Sync Queue**: Logs made while disconnected from the internet are securely queued and automatically uploaded to iCloud in the background once a connection is restored.
 - **Privacy & Clearing**: In the Settings tab, you can clear all recorded local logs and remotely wipe CloudKit data simultaneously for perfect privacy.
-- **Parent Monitoring (HealthKit)**: (Optional) Logs can sync to Apple Health on the paired iPhone. This is currently disabled by default.
+- **Parent Monitoring (HealthKit)**: (Disabled) Logs can sync to Apple Health on the paired iPhone. This is currently disabled by default.
 
 ### ⌚ Complication (Widget)
 - **At-a-Glance Status**: See exactly how much time is left until the next check-in directly on the watch face.
@@ -50,8 +50,14 @@ Enable the **iCloud (CloudKit)** capability in Xcode for the Watch App target.
 
 **Web Dashboard Setup:**
 1.  Navigate to the `dashboard/` folder.
-2.  Open `index.html` in your web browser. Use the UI toggle to switch between the Development and Production dataset as needed.
+2.  Open `index.html` in your web browser. Ensure the Environment dropdown (located in the footer) is set correctly (defaults to Production).
 3.  Optional: If cloning your own fork, edit `index.html` to insert your own CloudKit API tokens.
+
+**Admin Dashboard Setup:**
+To manually correct or backfill missed logs on behalf of the child:
+1. Navigate to `dashboard/admin.html` in your web browser.
+2. **Important:** You must sign in using the **child's Apple ID**. Due to CloudKit Shared Database permissions, parents (who receive the read-only share link) cannot mutate records.
+3. Once logged in as the child, you can use the form to add new logs or delete existing incorrect logs.
 
 ## Installation
 
