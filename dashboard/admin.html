@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoTime Admin</title>
+    <script src="https://cdn.apple-cloudkit.com/ck/2/cloudkit.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: #fefefe;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #007aff;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #d9534f;
+            font-size: 0.9em;
+            margin-bottom: 30px;
+        }
+
+        .auth-container {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .header-controls {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .header-controls select {
+            padding: 4px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .action-button {
+            background: #007aff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .action-button:hover {
+            background: #0060cb;
+        }
+
+        .action-button.danger {
+            background: none;
+            color: #d9534f;
+            border: 1px solid #d9534f;
+            padding: 4px 8px;
+            font-size: 0.8em;
+        }
+
+        .action-button.danger:hover {
+            background: #fdf0f0;
+        }
+
+        #admin-container {
+            display: none;
+        }
+
+        .card {
+            background: #f0f8ff;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #cce5ff;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #cce5ff;
+            padding-bottom: 10px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .form-row select,
+        .form-row input {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 0.9em;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+            background: #fff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #555;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background-color: #fafbfc;
+        }
+
+        .badge-pee {
+            color: #007aff;
+            font-weight: bold;
+        }
+
+        .badge-poop {
+            color: #a0522d;
+            font-weight: bold;
+        }
+
+        .badge-miralax {
+            color: #af52de;
+            font-weight: bold;
+        }
+
+        .sign-in-wrapper,
+        .sign-out-wrapper {
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+
+        #apple-sign-in-button,
+        #btn-sign-out {
+            opacity: 0.01;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 20;
+        }
+
+        .sign-in-overlay,
+        .sign-out-overlay {
+            background: #fff;
+            border: 1px solid #007aff;
+            color: #007aff;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .sign-in-overlay {
+            padding: 10px 20px;
+            font-size: 1.1em;
+            border-radius: 8px;
+            background: #007aff;
+            color: #fff;
+        }
+
+        #status-message {
+            margin-top: 15px;
+            font-weight: bold;
+            color: #5cb85c;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="header-controls">
+            <div id="sign-out-container" class="sign-out-wrapper" style="display: none;">
+                <div id="btn-sign-out"></div>
+                <div class="sign-out-overlay">Sign Out</div>
+            </div>
+        </div>
+
+        <h1>GoTime Data Manager</h1>
+        <p class="subtitle">You must sign in with the <b>child's Apple ID</b> to modify records.</p>
+
+        <div id="auth-root" class="auth-container">
+            <div id="sign-in-container" class="sign-in-wrapper" style="display: none;">
+                <div id="apple-sign-in-button"></div>
+                <div class="sign-in-overlay">Sign in with Apple</div>
+            </div>
+        </div>
+
+        <div id="admin-container">
+
+            <div class="card">
+                <h3>Add New Record</h3>
+                <div class="form-row">
+                    <select id="new-type">
+                        <option value="Pee">Pee</option>
+                        <option value="Poop">Poop</option>
+                        <option value="Miralax">Miralax</option>
+                    </select>
+
+                    <input type="datetime-local" id="new-date">
+
+                    <select id="new-extra" style="display: none;">
+                        <option value="">No extra info</option>
+                        <option value="Type 1">Type 1</option>
+                        <option value="Type 2">Type 2</option>
+                        <option value="Type 3">Type 3</option>
+                        <option value="Type 4">Type 4</option>
+                        <option value="Type 5">Type 5</option>
+                        <option value="Type 6">Type 6</option>
+                        <option value="Type 7">Type 7</option>
+                    </select>
+
+                    <button class="action-button" onclick="addRecord()">Add Record</button>
+                </div>
+                <!-- Timezone note -->
+                <div style="font-size: 0.8em; color: #888; margin-top: 5px;">Time operates in your local browser
+                    timezone.</div>
+            </div>
+
+            <div id="status-message"></div>
+
+            <div style="margin-top: 30px;">
+                <h3 style="display: flex; justify-content: space-between; align-items: center;">
+                    Existing Log History
+                    <button class="action-button" style="background: none; border: 1px solid #ccc; color: #333;"
+                        onclick="fetchLogs()">&#x21bb; Refresh</button>
+                </h3>
+                <table id="logs-table">
+                    <thead>
+                        <tr>
+                            <th>Date & Time</th>
+                            <th>Type</th>
+                            <th>Extra Data</th>
+                            <th style="text-align: right;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="logs-body">
+                        <tr>
+                            <td colspan="4" style="text-align: center; color: #888;">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <div
+            style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; font-size: 0.9em;">
+            <a href="index.html" style="color: #007aff; text-decoration: none;">&larr; Back to Dashboard</a>
+
+            <div style="margin-top: 20px; font-size: 0.8em; color: #888;">
+                <label for="env-select">Environment: </label>
+                <select id="env-select" onchange="switchEnvironment()" style="font-size: 0.9em; padding: 2px;">
+                    <option value="development">Development</option>
+                    <option value="production">Production</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const CONFIG = {
+            CONTAINER_IDENTIFIER: 'iCloud.com.justinsc.GoTime.watchkitapp',
+            TOKENS: {
+                'development': '16b7cae90ef09c5f598d3d7bebab5fffd128cc4b8f5b0f5dd5ccfe9a8d39609a',
+                'production': '1ec1540b07e5cdcba1946db620be551c718cede7f5e9078b37556ac65d597bfb'
+            }
+        };
+
+        const currentEnv = localStorage.getItem('gotime_environment') || 'production';
+        document.getElementById('env-select').value = currentEnv;
+
+        // Setup Date Input default
+        const now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        document.getElementById('new-date').value = now.toISOString().slice(0, 16);
+
+        // Toggle extra info dropdown if Poop is selected
+        document.getElementById('new-type').addEventListener('change', (e) => {
+            const extraSelect = document.getElementById('new-extra');
+            if (e.target.value === 'Poop') {
+                extraSelect.style.display = 'inline-block';
+            } else {
+                extraSelect.style.display = 'none';
+                extraSelect.value = '';
+            }
+        });
+
+        function switchEnvironment() {
+            const newEnv = document.getElementById('env-select').value;
+            localStorage.setItem('gotime_environment', newEnv);
+            window.location.reload();
+        }
+
+        CloudKit.configure({
+            containers: [{
+                containerIdentifier: CONFIG.CONTAINER_IDENTIFIER,
+                apiTokenAuth: {
+                    apiToken: CONFIG.TOKENS[currentEnv],
+                    persist: true,
+                    signInButton: { id: 'apple-sign-in-button', theme: 'black' },
+                    signOutButton: { id: 'btn-sign-out', theme: 'black' }
+                },
+                environment: currentEnv
+            }]
+        });
+
+        function gotoAuthenticatedState(userInfo) {
+            document.getElementById('auth-root').style.display = 'none';
+            document.getElementById('admin-container').style.display = 'block';
+            document.getElementById('sign-out-container').style.display = 'inline-block';
+            fetchLogs();
+        }
+
+        function gotoUnauthenticatedState(error) {
+            document.getElementById('auth-root').style.display = 'block';
+            document.getElementById('admin-container').style.display = 'none';
+            document.getElementById('sign-out-container').style.display = 'none';
+            if (error) console.error(error);
+            document.getElementById('sign-in-container').style.display = 'inline-block';
+        }
+
+        window.CloudKit.getDefaultContainer().setUpAuth()
+            .then(userInfo => userInfo ? gotoAuthenticatedState(userInfo) : gotoUnauthenticatedState())
+            .catch(error => gotoUnauthenticatedState(error));
+
+        window.addEventListener('apple-auth-signin', (event) => gotoAuthenticatedState(event.detail));
+        window.addEventListener('apple-auth-signout', () => {
+            gotoUnauthenticatedState();
+            window.location.reload();
+        });
+
+        document.getElementById('sign-in-container').addEventListener('click', () => {
+            document.querySelector('.sign-in-overlay').innerText = "Signing In...";
+            let checkCount = 0;
+            const checkAuth = setInterval(() => {
+                window.CloudKit.getDefaultContainer().setUpAuth().then(userInfo => {
+                    if (userInfo) {
+                        clearInterval(checkAuth);
+                        gotoAuthenticatedState(userInfo);
+                        document.querySelector('.sign-in-overlay').innerText = "Sign in with Apple";
+                    }
+                }).catch(e => { });
+                checkCount++;
+                if (checkCount > 120) {
+                    clearInterval(checkAuth);
+                    document.querySelector('.sign-in-overlay').innerText = "Sign in with Apple";
+                }
+            }, 500);
+        });
+
+        document.getElementById('sign-out-container').addEventListener('click', () => {
+            document.querySelector('.sign-out-overlay').innerText = "Signing Out...";
+            setTimeout(() => { gotoUnauthenticatedState(); window.location.reload(); }, 600);
+        });
+
+        function showStatus(msg, isError = false) {
+            const el = document.getElementById('status-message');
+            el.innerText = msg;
+            el.style.color = isError ? '#d9534f' : '#5cb85c';
+            setTimeout(() => { el.innerText = ''; }, 5000);
+        }
+
+        const zoneId = { zoneName: "GoTimeZone", ownerRecordName: "_defaultOwner" };
+
+        async function fetchLogs() {
+            const tb = document.getElementById('logs-body');
+            tb.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #888;">Loading...</td></tr>';
+
+            try {
+                const privateDB = CloudKit.getDefaultContainer().privateCloudDatabase;
+                const query = { recordType: 'PottyEvent', sortBy: [{ fieldName: 'date', ascending: false }] };
+
+                const result = await privateDB.performQuery(query, { zoneID: zoneId });
+                const records = result.records || [];
+
+                if (records.length === 0) {
+                    tb.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #888;">No records found in this account. Remember to sign in with the child\'s Apple ID.</td></tr>';
+                    return;
+                }
+
+                tb.innerHTML = '';
+                records.forEach(r => {
+                    const type = r.fields.type.value;
+                    const date = new Date(r.fields.date.value);
+                    const extra = r.fields.extraData ? r.fields.extraData.value : '';
+
+                    const tr = document.createElement('tr');
+                    let typeClass = `badge-${type.toLowerCase()}`;
+
+                    tr.innerHTML = `
+                        <td>${date.toLocaleString()}</td>
+                        <td class="${typeClass}">${type.toUpperCase()}</td>
+                        <td>${extra}</td>
+                        <td style="text-align: right;">
+                            <button class="action-button danger" onclick="deleteRecord('${r.recordName}', '${r.recordChangeTag}')">Delete</button>
+                        </td>
+                    `;
+                    tb.appendChild(tr);
+                });
+
+            } catch (error) {
+                console.error("Fetch Error:", error);
+                tb.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #d9534f;">Failed to fetch logs: ${error.message}</td></tr>`;
+            }
+        }
+
+        async function addRecord() {
+            const type = document.getElementById('new-type').value;
+            const dateStr = document.getElementById('new-date').value;
+            const extra = document.getElementById('new-extra').value;
+
+            if (!dateStr) {
+                showStatus("Please pick a valid date.", true);
+                return;
+            }
+
+            const timestamp = new Date(dateStr).getTime();
+
+            try {
+                const privateDB = CloudKit.getDefaultContainer().privateCloudDatabase;
+                const recInfo = {
+                    recordType: "PottyEvent",
+                    zoneID: zoneId,
+                    fields: {
+                        type: { value: type },
+                        date: { value: timestamp }
+                    }
+                };
+
+                if (type === 'Poop' && extra) {
+                    recInfo.fields.extraData = { value: extra };
+                }
+
+                showStatus("Saving...", false);
+                await privateDB.saveRecords(recInfo, { zoneID: zoneId });
+
+                showStatus("Record added successfully!");
+                document.getElementById('new-extra').value = '';
+                fetchLogs(); // Reload table
+
+            } catch (error) {
+                console.error("Save Error:", error);
+                showStatus(`Failed to save record: ${error.message}`, true);
+            }
+        }
+
+        async function deleteRecord(recordName, changeTag) {
+            if (!confirm("Are you sure you want to permanently delete this record?")) return;
+
+            try {
+                const privateDB = CloudKit.getDefaultContainer().privateCloudDatabase;
+
+                showStatus("Deleting...");
+                // Note: Javascript SDK typically expects the pure string for recordName string array
+                await privateDB.deleteRecords([{ recordName: recordName, zoneID: zoneId }]);
+
+                showStatus("Record deleted successfully!");
+                fetchLogs(); // Reload table
+
+            } catch (error) {
+                console.error("Delete Error:", error);
+                showStatus(`Failed to delete record: ${error.message || JSON.stringify(error)}`, true);
+            }
+        }
+    </script>
+</body>
+
+</html>
