@@ -201,6 +201,11 @@ class TimerManager: ObservableObject {
             isOverdue = true
             timeString = "CHECK IN"
             progress = 0.0
+        } else if remaining > interval + 3600 && isSleepEnabled {
+            // Option A: If remaining time is significantly larger than interval, it rolled past a sleep window
+            isOverdue = false
+            progress = 1.0
+            timeString = "Done for today"
         } else {
             isOverdue = false
             progress = remaining / interval
@@ -208,7 +213,14 @@ class TimerManager: ObservableObject {
             let hours = Int(remaining) / 3600
             let minutes = Int(remaining) / 60 % 60
             let seconds = Int(remaining) % 60
-            timeString = String(format: "%d:%02d:%02d", hours, minutes, seconds)
+            
+            if hours > 0 {
+                timeString = String(format: "%dh %dm", hours, minutes)
+            } else if minutes > 0 {
+                timeString = String(format: "%dm %ds", minutes, seconds)
+            } else {
+                timeString = String(format: "%ds", seconds)
+            }
         }
     }
     

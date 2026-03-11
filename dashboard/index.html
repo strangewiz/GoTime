@@ -198,13 +198,6 @@
 
     <div class="container">
         <div class="header-controls">
-            <div>
-                <label for="env-select" style="font-size: 0.9em; color: #555;">Environment: </label>
-                <select id="env-select" onchange="switchEnvironment()">
-                    <option value="development">Development</option>
-                    <option value="production">Production</option>
-                </select>
-            </div>
             <button id="btn-new-link" class="action-button" onclick="showConnectForm()">New Share Link</button>
             <div id="sign-out-container" class="sign-out-wrapper" style="display: none;">
                 <div id="btn-sign-out"></div>
@@ -263,6 +256,13 @@
             style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; font-size: 0.9em;">
             <a href="privacy.html" style="color: #007aff; text-decoration: none; margin: 0 10px;">Privacy Policy</a> |
             <a href="support.html" style="color: #007aff; text-decoration: none; margin: 0 10px;">Support & FAQ</a>
+            <div style="margin-top: 20px; font-size: 0.8em; color: #888;">
+                <label for="env-select">Environment: </label>
+                <select id="env-select" onchange="switchEnvironment()" style="font-size: 0.9em; padding: 2px;">
+                    <option value="development">Development</option>
+                    <option value="production">Production</option>
+                </select>
+            </div>
         </div>
     </div>
 
@@ -275,7 +275,7 @@
             }
         };
 
-        const currentEnv = localStorage.getItem('gotime_environment') || 'development';
+        const currentEnv = localStorage.getItem('gotime_environment') || 'production';
         document.getElementById('env-select').value = currentEnv;
 
         function switchEnvironment() {
